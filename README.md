@@ -8,6 +8,6 @@
 
 |Nom|Prénom|
 |--|--|
-*Nom 1er auteur* | *Prénom 1er auteur*|
-*Nom 2eme auteur* | *Prénom 2eme auteur*|
+*Deveaux* | *Julien*|
+*Lemesle* | *Justine*|
 
