@@ -1,0 +1,79 @@
+body {
+  font-size: small;
+  background-color: white;
+  background-size : 1550px 800px;
+  background-attachment: fixed;
+}
+
+p {
+  color: black;
+}
+
+h1 {
+  color: black;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: grey;
+  opacity: 0.9;
+}
+
+table {
+  border: 1px solid black;
+  text-align: center;
+}
+
+tr{
+  border: 1px solid black;
+  position:relative;
+}
+
+td {
+  text-align: center;
+}
+
+form {
+color : black;
+}
+
+/*a {
+  color : black;
+}*/
+
+table {
+  color : black;
+}
+
+li {
+  color : black;
+}
+
+h2 {
+  color : black;
+}
+
+.bouton_sup {
+  background-color: firebrick;
+  color: black;
+}
+
+.bouton_mod {
+  background-color: forestgreen;
+  color: black;
+}
+
+.bouton_det {
+  background-color: dodgerblue;
+  color: black;
+}
+
+.erreur {
+  background-color: red;
+  color: black;
+}
+
+.info {
+  background-color: orange;
+  color: black;
+}
