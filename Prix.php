@@ -1,5 +1,5 @@
 <?php
-class fonction_prix {
+class Prix {
 
     /**
      * gestion statique des accès SGBD

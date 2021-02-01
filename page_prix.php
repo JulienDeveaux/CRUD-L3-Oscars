@@ -3,7 +3,7 @@
     include 'debutSkelXhtml.php';
     include 'Prix.php';
     echo'<a href="index.php"> Retour accueil</a>';
-    $prix = fonction_prix::getAll();
+    $prix = Prix::getAll();
     if(!empty($prix)){
         echo '<br/><a href="ajouter_prix.php">Ajouter un prix</a>';
         echo("<table>");
