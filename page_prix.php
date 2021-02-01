@@ -20,7 +20,7 @@
                 $nomColonnesFait = true;
             }
             echo "<tr>";
-            echo '<td><img width=70 height=70 alt="'.$prix->getid_prix().'" src="../Illustrations/Prix/'.$prix->getid_prix().'.png"></td>';
+            echo '<td><img width=70 height=70 alt="'.$prix->getid_prix().'" src="Illustrations/Prix/'.$prix->getid_prix().'.png"></td>';
             echo "<td>".$prix->getnom_prix()."</td>";
             echo '<td>';
             echo '<a class="bouton_sup" href="supprimer_prix.php?id='.$prix->getid_prix().'">Supprimer</a>';
