@@ -1,5 +1,5 @@
 <?php
-class fonction_ceremonie {
+class Ceremonie {
 
     /**
      * gestion statique des accès SGBD
@@ -66,28 +66,28 @@ class fonction_ceremonie {
      * méthode statique instanciant fonction_prix::$_pdo_select
      */ 
     public static function initPDOS_select() {
-        self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Ceremonie WHERE id_ceremonie= :numero');
+        self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Ceremonie WHERE id_prix= :prix');
     }
 
     /**
      * méthode statique instanciant fonction_prix::$_pdo_update
      */ 
     public static function initPDOS_update() {
-        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Ceremonie SET nom_ceremonie=:nom, id_organisation=:organisation WHERE id_ceremonie=:numero');
+        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Ceremonie SET nom_ceremonie=:nom, id_organisation=:organisation WHERE id_prix=:prix');
     }
 
     /**
      * méthode statique instanciant fonction_prix::$_pdo_insert
      */ 
     public static function initPDOS_insert() {
-        self::$_pdos_insert = self::$_pdo->prepare('INSERT INTO Ceremonie VALUES(:numero,:nom,:organisation)');
+        self::$_pdos_insert = self::$_pdo->prepare('INSERT INTO Ceremonie VALUES(:prix,:nom,:organisation)');
     }
 
     /**
      * méthode statique instanciant fonction_prix::$_pdo_delete
      */ 
     public static function initPDOS_delete() {
-        self::$_pdos_delete = self::$_pdo->prepare('DELETE FROM Ceremonie WHERE id_ceremonie=:numero');
+        self::$_pdos_delete = self::$_pdo->prepare('DELETE FROM Ceremonie WHERE id_prix=:prix');
     }
 
     /**
@@ -114,10 +114,22 @@ class fonction_ceremonie {
     protected $nom_ceremonie;
 
     /**
-     * dépot légal du Ceremonie
+     * Lieu de la Ceremonie
      *   @var string
      */ 
-    protected $id_organisation;
+    protected $lieu_ceremonie;
+
+    /**
+     * Date de la Ceremonie
+     *   @var string
+     */ 
+    protected $date_ceremonie;
+
+    /**
+     * Prix de la Cérémonie
+     *   @var string
+     */ 
+    protected $id_prix;
 
     /**
      * attribut interne pour différencier les nouveaux objets des objets créés côté applicatif de ceux issus du SGBD
@@ -126,17 +138,45 @@ class fonction_ceremonie {
     private $nouveau = TRUE;
 
     /**
-     * @return $this->id_ceremonie
+     * @return $this->id_prix
      */ 
-    public function getid_ceremonie() : int {
-        return $this->id_ceremonie;
+    public function getid_prix() : int {
+        return $this->id_prix;
     }
 
     /**
-     * @param $id_ceremonie
+     * @param $id_prix
      */ 
-    public function setid_ceremonie($id_ceremonie): void {
-        $this->id_ceremonie=$id_ceremonie;
+    public function setid_prix($id_prix): void {
+        $this->id_prix=$id_prix;
+    }
+
+    /**
+     * @return $this->lieu_ceremonie
+     */ 
+    public function getlieu_ceremonie() : string {
+        return $this->lieu_ceremonie;
+    }
+
+    /**
+     * @param $lieu_ceremonie
+     */ 
+    public function setlieu_ceremonie($lieu_ceremonie): void {
+        $this->lieu_ceremonie=$lieu_ceremonie;
+    }
+
+    /**
+     * @return $this->date_ceremonie
+     */ 
+    public function getdate_ceremonie() : string {
+        return $this->date_ceremonie;
+    }
+
+    /**
+     * @param $date_ceremonie
+     */ 
+    public function setdate_ceremonie($date_ceremonie): void {
+        $this->date_ceremonie=$date_ceremonie;
     }
 
     /**
@@ -154,17 +194,17 @@ class fonction_ceremonie {
     }
 
     /**
-     * @return $this->id_organisation
+     * @return $this->id_ceremonie
      */ 
-    public function getid_organisation() : string {
-        return $this->id_organisation;
+    public function getid_ceremonie() : string {
+        return $this->id_ceremonie;
     }
 
     /**
      * @param $id_organisation
      */ 
-    public function setid_organisation($id_organisation): void {
-        $this->id_organisation=$id_organisation;
+    public function setid_ceremonie($id_ceremonie): void {
+        $this->id_ceremonie=$id_ceremonie;
     }
 
     /**
@@ -182,7 +222,7 @@ class fonction_ceremonie {
     }
 
     /**
-     * @return un tableau de tous les fonction_prix
+     * @return un tableau de tous les Ceremonie
      */ 
     public static function getAll(): array {
         try {
@@ -191,8 +231,8 @@ class fonction_ceremonie {
             if (!isset(self::$_pdos_selectAll))
                 self::initPDOS_selectAll();
             self::$_pdos_selectAll->execute();
-            // résultat du fetch dans une instance de fonction_prix
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'fonction_prix');
+            // résultat du fetch dans une instance de Ceremonie
+            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Ceremonie');
             return $lesLivres;
         }
         catch (PDOException $e) {
@@ -203,23 +243,23 @@ class fonction_ceremonie {
 
     /**
      * initialisation d'un objet métier à partir d'un enregistrement de Ceremonie
-     * @param $id_ceremonie un identifiant de Ceremonie
-     * @return l'instance de fonction_ceremonie associée à $id_ceremonie
+     * @param $id_prix un identifiant de Ceremonie
+     * @return l'instance de Ceremonie associée à $id_prix
      */ 
-    public static function initfonction_cerenomie($id_ceremonie) : fonction_ceremonie {
+    public static function initCeremonie($id_prix) : Ceremonie {
         try {
             if (!isset(self::$_pdo))
                 self::initPDO();
             if (!isset(self::$_pdos_select))
                 self::initPDOS_select();
-            self::$_pdos_select->bindValue(':numero',$id_ceremonie);
+            self::$_pdos_select->bindValue(':prix',$id_prix);
             self::$_pdos_select->execute();
         // résultat du fetch dans une instance de fonction_prix
-            $lm = self::$_pdos_select->fetchObject('fonction_ceremonie');
+            $lm = self::$_pdos_select->fetchObject('Ceremonie');
             if (isset($lm) && ! empty($lm))
                 $lm->setNouveau(FALSE);
             if (empty($lm))
-                throw new Exception("Ceremonie $id_ceremonie inexistant dans la table Ceremonie.\n");
+                throw new Exception("Ceremonie $id_prix inexistant dans la table Ceremonie.\n");
             return $lm;
         }
         catch (PDOException $e) {
@@ -239,7 +279,7 @@ class fonction_ceremonie {
             if (!isset(self::$_pdos_insert)) {
                 self::initPDOS_insert();
             }
-            self::$_pdos_insert->bindParam(':numero', $this->id_ceremonie);
+            self::$_pdos_insert->bindParam(':numero', $this->id_prix);
             self::$_pdos_insert->bindParam(':nom', $this->nom_ceremonie);
             self::$_pdos_insert->bindParam(':organisation', $this->id_organisation);
             self::$_pdos_insert->execute();
@@ -248,7 +288,7 @@ class fonction_ceremonie {
         else {
             if (!isset(self::$_pdos_update))
                 self::initPDOS_update();
-            self::$_pdos_update->bindParam(':numero', $this->id_ceremonie);
+            self::$_pdos_update->bindParam(':numero', $this->id_prix);
             self::$_pdos_update->bindParam(':nom', $this->nom_ceremonie);
             self::$_pdos_update->bindParam(':organisation', $this->id_organisation);
             self::$_pdos_update->execute();
@@ -265,7 +305,7 @@ class fonction_ceremonie {
             if (!isset(self::$_pdos_delete)) {
                 self::initPDOS_delete();
             }
-            self::$_pdos_delete->bindParam(':numero', $this->id_ceremonie);
+            self::$_pdos_delete->bindParam(':numero', $this->id_prix);
             self::$_pdos_delete->execute();
         }
         $this->setNouveau(TRUE);
@@ -289,10 +329,10 @@ class fonction_ceremonie {
      * affichage élémentaire
      */ 
     public function __toString() : string {
-        $ch = "<table border='1'><tr><th>id_ceremonie</th><th>nom_ceremonie</th><th>id_organisation</th><th>nouveau</th></tr><tr>";
-        $ch.= "<td>".$this->id_ceremonie."</td>";
+        $ch = "<table border='1'><tr><th>id_prix</th><th>nom_ceremonie</th><th>id_ceremonie</th><th>nouveau</th></tr><tr>";
+        $ch.= "<td>".$this->id_prix."</td>";
         $ch.= "<td>".$this->nom_ceremonie."</td>";
-        $ch.= "<td>".$this->id_organisation."</td>";
+        $ch.= "<td>".$this->id_ceremonie."</td>";
         $ch.= "<td>".$this->nouveau."</td>";
         $ch.= "</tr></table>";
         return $ch;

@@ -5,9 +5,10 @@
 	include 'Ceremonie.php';
 	if(!empty($_GET['id'])){
 		if(is_numeric($_GET['id'])){
-			$prix = fonction_prix::initfonction_prix(intval($_GET['id']));
+			$prix = Prix::initPrix(intval($_GET['id']));
+			echo $prix;
 			if(!empty($prix)){
-				$albums = fonction_ceremonie::initfonction_cerenomie($prix->getid_prix());
+				$albums = Ceremonie::initCeremonie($prix->getid_prix());
 				echo $albums;
 				echo '<h1>'.$prix->getnom_prix().'</h1>';
 				echo '<img width=100 height=150 alt="'.$prix->getid_prix().'" src="Illustrations/Prix/'.$prix->getid_prix().'.png">';
@@ -18,10 +19,9 @@
 				if(!empty($albums)){
 					echo '<ul>';
 					$lien = '';
-					foreach ($albums as $key => $album) {
-						echo $album;
-						$lien .= '<li><a href="detail_ceremonie.php?id='.$albums->getid_ceremonie().'"><img width=70 height=70 alt="'.$albums->getnom_ceremonie().'" src="Illustrations/Ceremonie/'.$albums->getid_ceremonie().'.png"></a>'.$albums->getnom_ceremonie().' </li>';
-					}
+					echo $albums;
+					$lien .= '<li><a href="detail_ceremonie.php?id='.$albums->getid_ceremonie().'"><img width=70 height=70 alt="'.$albums->getnom_ceremonie().'" src="Illustrations/Ceremonie/'.$albums->getid_ceremonie().'.png"></a>'.$albums->getnom_ceremonie().' </li>';
+					echo $lien;
 				}
 			}		
 		} else {
