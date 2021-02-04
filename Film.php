@@ -52,7 +52,7 @@ class Film
      * Initialisation de la connexion et mémorisation de l'instance PDO dans Films::$_pdo
      */
     public static function initPDO() {
-        self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");// pour récupérer aussi les exceptions provenant de PDOStatement
+        self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");// pour récupérer aussi les exceptions provenant de PDOStatement
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -144,7 +144,7 @@ class Film
     /**
      * @return $this->titre_film
      */
-    public function getTitr_film() : string {
+    public function getTitre_film() : string {
         return $this->titre_film;
     }
 
@@ -194,7 +194,7 @@ class Film
                 self::initPDOS_selectAll();
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de film
-            $lesFilms = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Films');
+            $lesFilms = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Film');
             return $lesFilms;
         }
         catch (PDOException $e) {
