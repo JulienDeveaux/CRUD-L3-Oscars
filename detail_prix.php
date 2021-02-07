@@ -6,10 +6,8 @@
 	if(!empty($_GET['id'])){
 		if(is_numeric($_GET['id'])){
 			$prix = Prix::initPrix(intval($_GET['id']));
-			echo $prix;
 			if(!empty($prix)){
 				$albums = Ceremonie::initCeremonie($prix->getid_prix());
-				echo $albums;
 				echo '<h1>'.$prix->getnom_prix().'</h1>';
 				echo '<img width=100 height=150 alt="'.$prix->getid_prix().'" src="Illustrations/Prix/'.$prix->getid_prix().'.png">';
 				//echo '<p>'.$prix['clan'].'</p>';
@@ -19,7 +17,6 @@
 				if(!empty($albums)){
 					echo '<ul>';
 					$lien = '';
-					echo $albums;
 					$lien .= '<li><a href="detail_ceremonie.php?id='.$albums->getid_ceremonie().'"><img width=70 height=70 alt="'.$albums->getnom_ceremonie().'" src="Illustrations/Ceremonie/'.$albums->getid_ceremonie().'.png"></a>'.$albums->getnom_ceremonie().' </li>';
 					echo $lien;
 				}

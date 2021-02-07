@@ -204,24 +204,24 @@ class Film
 
 
     /**
-     * initialisation d'un objet métier à partir d'un enregistrement de livre
-     * @param $liv_num un identifiant de livre
-     * @return l'instance de LivreMetier associée à $liv_num
+     * initialisation d'un objet métier à partir d'un enregistrement de Film
+     * @param $id_film un identifiant de livre
+     * @return l'instance de Film associée à $id_film
      */
-    public static function initLivreMetier($liv_num) : LivreMetier {
+    public static function initFilm($id_film) : Film {
         try {
             if (!isset(self::$_pdo))
                 self::initPDO();
             if (!isset(self::$_pdos_select))
                 self::initPDOS_select();
-            self::$_pdos_select->bindValue(':numero',$liv_num);
+            self::$_pdos_select->bindValue(':numero',$id_film);
             self::$_pdos_select->execute();
-            // résultat du fetch dans une instance de LivreMetier
-            $lm = self::$_pdos_select->fetchObject('LivreMetier');
+            // résultat du fetch dans une instance de Film
+            $lm = self::$_pdos_select->fetchObject('Film');
             if (isset($lm) && ! empty($lm))
                 $lm->setNouveau(FALSE);
             if (empty($lm))
-                throw new Exception("Livre $liv_num inexistant dans la table Livre.\n");
+                throw new Exception("Film $id_film inexistant dans la table Film.\n");
             return $lm;
         }
         catch (PDOException $e) {
@@ -242,8 +242,8 @@ class Film
                 self::initPDOS_insert();
             }
             self::$_pdos_insert->bindParam(':numero', $this->liv_num);
-            self::$_pdos_insert->bindParam(':titre', $this->liv_titre);
-            self::$_pdos_insert->bindParam(':depotLegal', $this->liv_depotlegal);
+            self::$_pdos_insert->bindParam(':titre', $this->titre_film);
+            self::$_pdos_insert->bindParam(':depotLegal', $this->titre_original);
             self::$_pdos_insert->execute();
             $this->setNouveau(FALSE);
         }
@@ -251,8 +251,8 @@ class Film
             if (!isset(self::$_pdos_update))
                 self::initPDOS_update();
             self::$_pdos_update->bindParam(':numero', $this->liv_num);
-            self::$_pdos_update->bindParam(':titre', $this->liv_titre);
-            self::$_pdos_update->bindParam(':depotLegal', $this->liv_depotlegal);
+            self::$_pdos_update->bindParam(':titre', $this->titre_film);
+            self::$_pdos_update->bindParam(':depotLegal', $this->titre_original);
             self::$_pdos_update->execute();
         }
     }

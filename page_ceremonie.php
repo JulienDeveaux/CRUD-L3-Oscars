@@ -12,7 +12,7 @@
             if(!$nomColonnesFait){
                 echo "<tr>";
                 echo "<th>Ceremonie</th>";
-                foreach ($ceremonie as $key => $value) {
+                foreach ($ceremonie as $key) {
                     echo "<th>$key</th>";
                 }
                 echo "<th>Nom</th>";
