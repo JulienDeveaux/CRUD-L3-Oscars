@@ -52,7 +52,7 @@ class Film
      * Initialisation de la connexion et mémorisation de l'instance PDO dans Films::$_pdo
      */
     public static function initPDO() {
-        self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");// pour récupérer aussi les exceptions provenant de PDOStatement
+        self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");// pour récupérer aussi les exceptions provenant de PDOStatement
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -68,7 +68,7 @@ class Film
      * méthode statique instanciant Film::$_pdo_select
      */
     public static function initPDOS_select() {
-        self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM film WHERE id_film = :numero');
+        self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM film WHERE id_film = :identifiant');
     }
 
     /**
@@ -93,7 +93,7 @@ class Film
     }
 
     /**
-     * préparation de la requête SELECT COUNT(*) FROM livre
+     * préparation de la requête SELECT COUNT(*) FROM film
      * instantiation de self::$_pdos_count
      */
     public static function initPDOS_count() {
@@ -230,7 +230,7 @@ class Film
     }
 
     /**
-     * sauvegarde d'un objet métier
+     * sauvegarde d'un objet
      * soit on insère un nouvel objet
      * soit on le met à jour
      */
@@ -241,18 +241,18 @@ class Film
             if (!isset(self::$_pdos_insert)) {
                 self::initPDOS_insert();
             }
-            self::$_pdos_insert->bindParam(':numero', $this->liv_num);
+            self::$_pdos_insert->bindParam(':identifiant', $this->id_film);
             self::$_pdos_insert->bindParam(':titre', $this->titre_film);
-            self::$_pdos_insert->bindParam(':depotLegal', $this->titre_original);
+            self::$_pdos_insert->bindParam(':titre_original', $this->titre_original);
             self::$_pdos_insert->execute();
             $this->setNouveau(FALSE);
         }
         else {
             if (!isset(self::$_pdos_update))
                 self::initPDOS_update();
-            self::$_pdos_update->bindParam(':numero', $this->liv_num);
+            self::$_pdos_update->bindParam(':identifiant', $this->id_film);
             self::$_pdos_update->bindParam(':titre', $this->titre_film);
-            self::$_pdos_update->bindParam(':depotLegal', $this->titre_original);
+            self::$_pdos_update->bindParam(':titre_original', $this->titre_original);
             self::$_pdos_update->execute();
         }
     }
@@ -267,16 +267,16 @@ class Film
             if (!isset(self::$_pdos_delete)) {
                 self::initPDOS_delete();
             }
-            self::$_pdos_delete->bindParam(':numero', $this->liv_num);
+            self::$_pdos_delete->bindParam(':numero', $this->id_film);
             self::$_pdos_delete->execute();
         }
         $this->setNouveau(TRUE);
     }
 
     /**
-     * nombre d'objets metier disponible dans la table
+     * nombre d'objets film disponible dans la table
      */
-    public static function getNbLivres() : int {
+    public static function getNbFilms() : int {
         if (!isset(self::$_pdos_count)) {
             self::initPDOS_count();
         }

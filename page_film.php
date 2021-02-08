@@ -5,7 +5,7 @@ include 'Film.php';
 echo'<a href="index.php"> Retour accueil</a>';
 $film = Film::getAll();
 if(!empty($film)){
-    echo '<br/><a href="ajouter_film.php">Ajouter un film</a>';
+    echo '<br/><a href="ajout_film.php">Ajouter un film</a>';
     echo("<table>");
     $nomColonnesFait = false;
     foreach ($film as $key => $film) {
