@@ -204,8 +204,8 @@ class Film
 
 
     /**
-     * initialisation d'un objet métier à partir d'un enregistrement de Film
-     * @param $id_film un identifiant de livre
+     * initialisation d'un objet à partir d'un enregistrement de Film
+     * @param $id_film un identifiant de film
      * @return l'instance de Film associée à $id_film
      */
     public static function initFilm($id_film) : Film {
@@ -214,7 +214,7 @@ class Film
                 self::initPDO();
             if (!isset(self::$_pdos_select))
                 self::initPDOS_select();
-            self::$_pdos_select->bindValue(':numero',$id_film);
+            self::$_pdos_select->bindValue(':identifiant',$id_film);
             self::$_pdos_select->execute();
             // résultat du fetch dans une instance de Film
             $lm = self::$_pdos_select->fetchObject('Film');
@@ -258,7 +258,7 @@ class Film
     }
 
     /**
-     * suppression d'un objet métier
+     * suppression d'un objet
      */
     public function delete() :void {
         if (!isset(self::$_pdo))

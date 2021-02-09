@@ -4,10 +4,20 @@
     include 'Film.php';
 
     echo '<form action="ajout_film.php" method="get" >';
+    $film = Film::initFilm(1);
+    $idFilmMax =  $film->getNbFilms();
+    if(isset($idFilmMax)) {
+        $idFilmMax++;
+    }
     if(isset ($_GET['titre_film'])){
-        $film = Film::getAll();
+        $film = Film::initFilm(1);
+        $film->setId_film($idFilmMax + 1);
+        $film->setNouveau(true);
+        $film->setTitre_film($_GET['titre_film']);
+        $film->setTitre_original($_GET['titre_original']);
         $film->save();
-      //  echo  '<meta http-equiv="refresh" content="0;URL=page_film.php" />';
+        //echo $film;
+       echo  '<meta http-equiv="refresh" content="0;URL=page_film.php" />';
     } else {
         echo '<h1>Ajout d\'un film</h1>';
         echo '<p><br/>';
