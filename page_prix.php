@@ -5,7 +5,7 @@
     echo'<a href="index.php"> Retour accueil</a>';
     $prix = Prix::getAll();
     if(!empty($prix)){
-        echo '<br/><a href="ajouter_prix.php">Ajouter un prix</a>';
+        echo '<br/><a href="ajout_prix.php">Ajouter un prix</a>';
         echo("<table>");
         $nomColonnesFait = false;
         foreach ($prix as $key => $prix) {
