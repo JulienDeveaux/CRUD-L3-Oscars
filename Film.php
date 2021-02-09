@@ -159,7 +159,11 @@ class Film
      * @return $this->titre_original
      */
     public function getTitre_original() : string {
+        if(gettype($this->titre_original) == null){
+            return 'inconnu';
+        }
         return $this->titre_original;
+
     }
 
     /**
@@ -267,7 +271,7 @@ class Film
             if (!isset(self::$_pdos_delete)) {
                 self::initPDOS_delete();
             }
-            self::$_pdos_delete->bindParam(':numero', $this->id_film);
+            self::$_pdos_delete->bindParam(':identifiant', $this->id_film);
             self::$_pdos_delete->execute();
         }
         $this->setNouveau(TRUE);
