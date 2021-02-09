@@ -1,5 +1,6 @@
 <?php
-    $titre = "Ajouter un film";
+
+    $titre = "Suppression du film";
     include 'debutSkelXhtml.php';
     include 'Film.php';
 
@@ -13,3 +14,4 @@
             echo  '<meta http-equiv="refresh" content="0;URL=page_film.php" />';
         }
     }
+    ?>
