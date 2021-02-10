@@ -63,42 +63,42 @@ class Concerne {
     }
 
      /**
-     * méthode statique instanciant fonction_prix::$_pdo_select
+     * méthode statique instanciant Concerne::$_pdo_select
      */ 
     public static function initPDOS_select_recipiendaire() {
         self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Concerne WHERE id_recipiendaire= :recipiendaire');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_select
+     * méthode statique instanciant Concerne::$_pdo_select
      */ 
     public static function initPDOS_select_film() {
         self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Concerne WHERE id_film= :film');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_select
+     * méthode statique instanciant Concerne::$_pdo_select
      */ 
     public static function initPDOS_select_nomination() {
         self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Concerne WHERE id_nomination= :nomination');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_update
+     * méthode statique instanciant Concerne::$_pdo_update
      */ 
     public static function initPDOS_update() {
         self::$_pdos_update =  self::$_pdo->prepare('UPDATE Concerne SET fonction=:fonction, nom_contribution=:contribution, id_film=:film, id_recipiendaire=:recipiendaire, =:id_nomination=:nomination WHERE id_prix=:prix');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_insert
+     * méthode statique instanciant Concerne::$_pdo_insert
      */ 
     public static function initPDOS_insert() {
         self::$_pdos_insert = self::$_pdo->prepare('INSERT INTO Concerne VALUES(:fonction,:contribution,:film,:recipiendaire,;nomination)');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_delete
+     * méthode statique instanciant Concerne::$_pdo_delete
      */ 
     public static function initPDOS_delete() {
         self::$_pdos_delete = self::$_pdo->prepare('DELETE FROM Concerne WHERE id_prix=:prix AND id_recipiendaire:=recipiendaire AND id_nomination:=nomination');
@@ -298,7 +298,7 @@ class Concerne {
             if (isset($lm) && ! empty($lm))
                 $lm->setNouveau(FALSE);
             if (empty($lm))
-                throw new Exception("Concerne $id_film inexistant dans la table Concerne.\n");
+                throw new Exception("Film $id_film inexistant dans la table Concerne.\n");
             return $lm;
         }
         catch (PDOException $e) {

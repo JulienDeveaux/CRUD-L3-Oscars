@@ -52,7 +52,7 @@ class Film
      * Initialisation de la connexion et mémorisation de l'instance PDO dans Films::$_pdo
      */
     public static function initPDO() {
-        self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");// pour récupérer aussi les exceptions provenant de PDOStatement
+        self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");// pour récupérer aussi les exceptions provenant de PDOStatement
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -61,7 +61,7 @@ class Film
      * instantiation de self::$_pdos_selectAll
      */
     public static function initPDOS_selectAll() {
-        self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM film');
+        self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM film ORDER BY id_film');
     }
 
     /**
@@ -93,7 +93,7 @@ class Film
     }
 
     /**
-     * préparation de la requête SELECT COUNT(*) FROM film
+     * préparation de la requête SELECT COUNT(*) FROM Film
      * instantiation de self::$_pdos_count
      */
     public static function initPDOS_count() {
@@ -158,12 +158,8 @@ class Film
     /**
      * @return $this->titre_original
      */
-    public function getTitre_original() : string {
-        if(gettype($this->titre_original) == null){
-            return 'inconnu';
-        }
+    public function getTitre_original() {
         return $this->titre_original;
-
     }
 
     /**

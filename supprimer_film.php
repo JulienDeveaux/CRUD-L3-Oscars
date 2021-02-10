@@ -1,5 +1,5 @@
 <?php
-    $titre = "Ajouter un film";
+    $titre = "Supprimer un film";
     include 'debutSkelXhtml.php';
     include 'Film.php';
 
