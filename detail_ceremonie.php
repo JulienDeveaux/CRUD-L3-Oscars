@@ -1,17 +1,21 @@
 <?php
 	$titre= "Detail Ceremonie";
 	include 'debutSkelXhtml.php';
-	include 'Prix.php';
 	include 'Ceremonie.php';
+	include 'Prix.php';
+	include 'Organisation.php';
+
 	if(!empty($_GET['id'])){
 		if(is_numeric($_GET['id'])){
 			$ceremonie = Ceremonie::initCeremonie(intval($_GET['id']));
 			if(!empty($ceremonie)){
 				$prix = Prix::initPrix($ceremonie->getid_prix());
+				$organisation = Organisation::initOrganisation($prix->getid_organisation());
 				echo '<h1>'.$ceremonie->getnom_ceremonie().'</h1>';
 				echo '<img width=100 height=150 alt="'.$ceremonie->getid_ceremonie().'" src="Illustrations/Ceremonie/'.$ceremonie->getid_ceremonie().'.png">';
 				echo '</br>';
 				echo '<h1> A organisé: <a href="detail_prix.php?id='.$prix->getid_prix().'">'.$prix->getnom_prix().'</a> le '.$ceremonie->getdate_ceremonie().' à '.$ceremonie->getlieu_ceremonie().'</h1>';
+				echo '<h1> Organisation de cette cérémonie : '.$organisation->getnom_organisation().' de type '.$organisation->gettype_organisation().'</h1>';
 
 				if(!empty($albums)){
 					echo '<ul>';

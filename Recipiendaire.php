@@ -32,24 +32,22 @@ class Recipiendaire {
     private static $_pdos_delete;
 
     /**
-     * PreparedStatement associé à un SELECT, calcule le nombre de livres de la table
+     * PreparedStatement associé à un SELECT, calcule le nombre de recipiendaires de la table
      * @var PDOStatement;
         */
     private static $_pdos_count;
 
     /**
-     * PreparedStatement associé à un SELECT, récupère tous les livres
+     * PreparedStatement associé à un SELECT, récupère tous les récipiendaires
      * @var PDOStatement;
         */
      private static $_pdos_selectAll;
 
-
-
     /**
-     * Initialisation de la connexion et mémorisation de l'instance PDO dans fonction_prix::$_pdo
+     * Initialisation de la connexion et mémorisation de l'instance PDO dans Recipiendaire::$_pdo
      */ 
     public static function initPDO() {
-        self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
+        self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");
         // pour récupérer aussi les exceptions provenant de PDOStatement
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -59,35 +57,35 @@ class Recipiendaire {
      * instantiation de self::$_pdos_selectAll
         */
     public static function initPDOS_selectAll() {
-        self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Recipiendaire');
+        self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Recipiendaire ORDER BY id_recipiendaire');
     }
 
      /**
-     * méthode statique instanciant fonction_prix::$_pdo_select
+     * méthode statique instanciant Recipiendaire::$_pdo_select
      */ 
     public static function initPDOS_select() {
-        self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Recipiendaire WHERE id_recipiendaire= :ceremonie');
+        self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Recipiendaire WHERE id_recipiendaire= :id_recipiendaire');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_update
+     * méthode statique instanciant Recipiendaire::$_pdo_update
      */ 
     public static function initPDOS_update() {
-        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Recipiendaire SET nom_recipiendaire=:nom, id_organisation=:organisation WHERE id_prix=:prix');
+        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Recipiendaire SET id_recipiendaire=:id_recipiendaire, nom_recipiendaire=:nom, prenom_recipiendaire=:prenom WHERE id_recipiendaire=:id_recipiendaire');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_insert
+     * méthode statique instanciant Recipiendaire::$_pdo_insert
      */ 
     public static function initPDOS_insert() {
-        self::$_pdos_insert = self::$_pdo->prepare('INSERT INTO Recipiendaire VALUES(:prix,:nom,:organisation)');
+        self::$_pdos_insert = self::$_pdo->prepare('INSERT INTO Recipiendaire VALUES(:id_recipiendaire,:nom,:prenom)');
     }
 
     /**
-     * méthode statique instanciant fonction_prix::$_pdo_delete
+     * méthode statique instanciant Recipiendaire::$_pdo_delete
      */ 
     public static function initPDOS_delete() {
-        self::$_pdos_delete = self::$_pdo->prepare('DELETE FROM Recipiendaire WHERE id_prix=:prix');
+        self::$_pdos_delete = self::$_pdo->prepare('DELETE FROM Recipiendaire WHERE id_recipiendaire=:recipiendaire');
     }
 
     /**
@@ -99,7 +97,6 @@ class Recipiendaire {
             self::initPDO();
         self::$_pdos_count = self::$_pdo->prepare('SELECT COUNT(*) FROM Recipiendaire');
     }
-
 
      /**
      * numéro du Recipiendaire (identifiant dans la table Recipiendaire)
@@ -114,22 +111,10 @@ class Recipiendaire {
     protected $nom_recipiendaire;
 
     /**
-     * Lieu de la Recipiendaire
-     *   @var string
-     */ 
-    protected $lieu_ceremonie;
-
-    /**
-     * Date de la Recipiendaire
+     * Prenom du Recipiendaire
      *   @var string
      */ 
     protected $prenom_recipiendaire;
-
-    /**
-     * Prix de la Cérémonie
-     *   @var string
-     */ 
-    protected $id_prix;
 
     /**
      * attribut interne pour différencier les nouveaux objets des objets créés côté applicatif de ceux issus du SGBD
@@ -212,7 +197,6 @@ class Recipiendaire {
         }
     }
 
-
     /**
      * initialisation d'un objet métier à partir d'un enregistrement de Recipiendaire
      * @param $id_recipiendaire un identifiant de Recipiendaire
@@ -224,14 +208,14 @@ class Recipiendaire {
                 self::initPDO();
             if (!isset(self::$_pdos_select))
                 self::initPDOS_select();
-            self::$_pdos_select->bindValue(':ceremonie',$id_recipiendaire);
+            self::$_pdos_select->bindValue(':id_recipiendaire',$id_recipiendaire);
             self::$_pdos_select->execute();
-        // résultat du fetch dans une instance de fonction_prix
+        // résultat du fetch dans une instance de Recipiendaire
             $lm = self::$_pdos_select->fetchObject('Recipiendaire');
             if (isset($lm) && ! empty($lm))
                 $lm->setNouveau(FALSE);
             if (empty($lm))
-                throw new Exception("Recipiendaire $id_prix inexistant dans la table Recipiendaire.\n");
+                throw new Exception("Recipiendaire $id_recipiendaire inexistant dans la table Recipiendaire.\n");
             return $lm;
         }
         catch (PDOException $e) {
@@ -251,18 +235,18 @@ class Recipiendaire {
             if (!isset(self::$_pdos_insert)) {
                 self::initPDOS_insert();
             }
-            self::$_pdos_insert->bindParam(':numero', $this->id_prix);
+            self::$_pdos_insert->bindParam(':id_recipiendaire', $this->id_recipiendaire);
             self::$_pdos_insert->bindParam(':nom', $this->nom_recipiendaire);
-            self::$_pdos_insert->bindParam(':organisation', $this->id_organisation);
+            self::$_pdos_insert->bindParam(':prenom', $this->prenom_recipiendaire);
             self::$_pdos_insert->execute();
             $this->setNouveau(FALSE);
         }
         else {
             if (!isset(self::$_pdos_update))
                 self::initPDOS_update();
-            self::$_pdos_update->bindParam(':numero', $this->id_prix);
+            self::$_pdos_update->bindParam(':id_recipiendaire', $this->id_recipiendaire);
             self::$_pdos_update->bindParam(':nom', $this->nom_recipiendaire);
-            self::$_pdos_update->bindParam(':organisation', $this->id_organisation);
+            self::$_pdos_update->bindParam(':prenom', $this->prenom_recipiendaire);
             self::$_pdos_update->execute();
         }
     }
@@ -277,7 +261,7 @@ class Recipiendaire {
             if (!isset(self::$_pdos_delete)) {
                 self::initPDOS_delete();
             }
-            self::$_pdos_delete->bindParam(':numero', $this->id_prix);
+            self::$_pdos_delete->bindParam(':id_recipiendaire', $this->id_recipiendaire);
             self::$_pdos_delete->execute();
         }
         $this->setNouveau(TRUE);
