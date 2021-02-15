@@ -39,6 +39,6 @@
 		// Erreur : id non renseigné dans l'url : cas non atteind en navigation normale sur le site
 		echo '<p class="erreur">Erreur : id non renseigne </p>';
 	}
-	echo '<a href="page_ceremonie.php">Retour</a>';
+	echo '<a href="page_film.php">Retour</a>';
     include 'finKtml.html';
 ?>
