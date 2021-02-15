@@ -47,7 +47,7 @@ class Categorie {
 	 * Initialisation de la connexion et mémorisation de l'instance PDO dans Categorie::$_pdo
 	 */
 	public static function initPDO() {
-		self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
+		self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");
 		// pour récupérer aussi les exceptions provenant de PDOStatement
 		self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
@@ -57,7 +57,7 @@ class Categorie {
 	 * instantiation de self::$_pdos_selectAll
 	 */
 	public static function initPDOS_selectAll() {
-		self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Categorie');
+		self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Categorie ORDER BY id_catergorie');
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Categorie {
 	 * méthode statique instanciant Categorie::$_pdo_select
 	 */
 	public static function initPDOS_select_prix() {
-		self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Categorie WHERE id_prix= :id_prix');
+		self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Categorie WHERE id_prix=:id_prix');
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Categorie {
 	/**
 	 * @return $this->id_categorie
 	 */
-	public function getid_categorie() : string {
+	public function getid_categorie() : int {
 		return $this->id_categorie;
 	}
 
@@ -158,7 +158,7 @@ class Categorie {
 	}
 
 	/**
-	 * @param $this->titre_categorie
+	 * @param $titre_categorie
 	 */
 	public function settitre_categorie($titre_categorie): void {
 		$this->titre_categorie=$titre_categorie;
@@ -167,7 +167,7 @@ class Categorie {
 	/**
 	 * @return $this->id_prix
 	 */
-	public function getid_prix() : string {
+	public function getid_prix() : int {
 		return $this->id_prix;
 	}
 
@@ -212,7 +212,7 @@ class Categorie {
 	}
 
 	/**
-	 * initialisation d'un objet métier à partir d'un enregistrement de Categorie
+	 * initialisation d'un objet à partir d'un enregistrement de Categorie
 	 * @param $id_categorie identifiant de Categorie
 	 * @return l'instance de Concerne associée à $id_categorie
 	 */
@@ -238,30 +238,30 @@ class Categorie {
 	}
 
 	/**
-	 * initialisation d'un objet métier à partir d'un enregistrement de Categorie
+	 * initialisation d'un objet à partir d'un enregistrement de Categorie
 	 * @param $id_prix un identifiant de Categorie
 	 * @return l'instance de Categorie associée à $id_ceremonie
 	 */
-	public static function initCategorie_prix($id_prix) : Categorie {
-		try {
-			if (!isset(self::$_pdo))
-				self::initPDO();
-			if (!isset(self::$_pdos_select))
-				self::initPDOS_select_prix();
-			self::$_pdos_select->bindValue(':id_prix',$id_prix);
-			self::$_pdos_select->execute();
-			// résultat du fetch dans une instance de Nomination
-			$lm = self::$_pdos_select->fetchObject('Categorie');
-			if (isset($lm) && ! empty($lm))
-				$lm->setNouveau(FALSE);
-			if (empty($lm))
-				throw new Exception("Prix $id_prix inexistant dans la table Categorie.\n");
-			return $lm;
-		}
-		catch (PDOException $e) {
-			print($e);
-		}
-	}
+    public static function initCategorie_prix($id_prix) {
+        try {
+            if (!isset(self::$_pdo))
+                self::initPDO();
+            if (!isset(self::$_pdos_select))
+                self::initPDOS_select_prix();
+            self::$_pdos_select->bindValue(':id_prix',$id_prix);
+            self::$_pdos_select->execute();
+            // résultat du fetch dans une instance de Categorie
+            $lm = self::$_pdos_select->fetchObject('Categorie');
+            if (isset($lm) && ! empty($lm))
+                $lm->setNouveau(FALSE);
+            if (empty($lm))
+                throw new Exception("prix $id_prix inexistant dans la table Categorie.\n");
+            return $lm;
+        }
+        catch (PDOException $e) {
+            print($e);
+        }
+    }
 
 	/**
 	 * sauvegarde d'un objet métier
@@ -301,10 +301,9 @@ class Categorie {
 			if (!isset(self::$_pdos_delete)) {
 				self::initPDOS_delete();
 			}
-			self::$_pdos_delete->bindParam(':id_nomination', $this->id_nomination);
-			self::$_pdos_delete->bindParam(':gagnante', $this->gagnante_nomination);
-			self::$_pdos_delete->bindParam(':ceremonie', $this->id_ceremonie);
-			self::$_pdos_delete->bindParam(':categorie', $this->id_categorie);
+			self::$_pdos_delete->bindParam(':id_categorie', $this->id_categorie);
+            self::$_pdos_delete->bindParam(':titre', $this->titre_categorie);
+            self::$_pdos_delete->bindParam(':id_prix', $this->id_prix);
 			self::$_pdos_delete->execute();
 		}
 		$this->setNouveau(TRUE);

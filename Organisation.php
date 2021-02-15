@@ -47,7 +47,7 @@ class Organisation {
 	 * Initialisation de la connexion et mémorisation de l'instance PDO dans fonction_prix::$_pdo
 	 */
 	public static function initPDO() {
-		self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
+		self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");
 		// pour récupérer aussi les exceptions provenant de PDOStatement
 		self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
