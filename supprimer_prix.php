@@ -16,8 +16,10 @@ if(isset($_GET['Oui'])) {
     echo  '<meta http-equiv="refresh" content="0;URL=page_prix.php" />';
 }
 else {
-    echo '<p> Etes vous sûr de vouloir supprimer ? </p>';
-    echo '<input type="hidden" name="id" value="'.$_GET['id'].'">';
+	$prix = Prix::initPrix($_GET['id']);
+	echo '<h1> Etes vous sûr de vouloir supprimer le prix '.$prix->getnom_prix().' ? </h1>';
+	echo '<img width=100 height=150 alt="'.$prix->getid_prix().'" src="Illustrations/Prix/'.$prix->getid_prix().'.png">';
+	echo '<br/><input type="hidden" name="id" value="'.$_GET['id'].'">';
     echo '<button type="submit" name="Oui" > Oui </button>';
     echo '<button type="submit" name="Annuler" > Annuler </button>';
 }

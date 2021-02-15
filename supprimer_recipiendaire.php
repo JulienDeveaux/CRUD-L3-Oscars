@@ -14,10 +14,11 @@ if(isset($_GET['Oui'])) {
     }
 }else if(isset($_GET['Annuler'])){
     echo  '<meta http-equiv="refresh" content="0;URL=page_recipiendaire.php" />';
-}
-else {
-    echo '<p> Etes vous sûr de vouloir supprimer ? </p>';
-    echo '<input type="hidden" name="id" value="'.$_GET['id'].'">';
+}else {
+	$recipiendaire = Recipiendaire::initRecipiendaire($_GET['id']);
+    echo '<h1> Etes vous sûr de vouloir supprimer '.$recipiendaire->getnom_recipiendaire().' '.$recipiendaire->getprenom_recipiendaire().' ? </h1>';
+	echo '<img width=100 height=150 alt="'.$recipiendaire->getid_recipiendaire().'" src="Illustrations/Recipiendaire/'.$recipiendaire->getid_recipiendaire().'.png">';
+    echo '<br/><input type="hidden" name="id" value="'.$_GET['id'].'">';
     echo '<button type="submit" name="Oui" > Oui </button>';
     echo '<button type="submit" name="Annuler" > Annuler </button>';
 }

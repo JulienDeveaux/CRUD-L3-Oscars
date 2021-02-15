@@ -16,8 +16,10 @@
     echo  '<meta http-equiv="refresh" content="0;URL=page_film.php" />';
     }
     else {
-        echo '<p> Etes vous sûr de vouloir supprimer ? </p>';
-        echo '<input type="hidden" name="id" value="'.$_GET['id'].'">';
+		$film = Film::initFilm($_GET['id']);
+		echo '<h1> Etes vous sûr de vouloir supprimer le filom '.$film->getTitre_film().' ? </h1>';
+		echo '<img width=100 height=150 alt="'.$film->getId_film().'" src="Illustrations/Film/'.$film->getId_film().'.png">';
+		echo '<br/><input type="hidden" name="id" value="'.$_GET['id'].'">';
         echo '<button type="submit" name="Oui" > Oui </button>';
         echo '<button type="submit" name="Annuler" > Annuler </button>';
     }
