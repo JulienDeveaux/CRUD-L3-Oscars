@@ -7,6 +7,8 @@
 	include 'Concerne.php';
 	include 'Nomination.php';
 	include 'Categorie.php';
+	include 'Film.php';
+
 	if(!empty($_GET['id'])){
 		if(is_numeric($_GET['id'])){
 			$recipiendaire = Recipiendaire::initRecipiendaire(intval($_GET['id']));
@@ -14,9 +16,6 @@
 				$concerne = Concerne::initConcerne_recipiendaire($recipiendaire->getid_recipiendaire());
 				$nomination = Nomination::initNomination(($concerne->getid_nomination()));
 				$ceremonie = Ceremonie::initCeremonie($nomination->getid_ceremonie());
-				echo $concerne;
-				echo $nomination;
-				echo $ceremonie;
 				echo '<h1>'.$recipiendaire->getnom_recipiendaire().' '.$recipiendaire->getprenom_recipiendaire().'</h1>';
 				echo '<img width=100 height=150 alt="'.$recipiendaire->getid_recipiendaire().'" src="Illustrations/Recipiendaire/'.$recipiendaire->getid_recipiendaire().'.png">';
 				echo '</br>';
@@ -31,9 +30,8 @@
 				}
 				if($nomination->getgagnante_nomination() == true) {
 					$categorie = Categorie::initCategorie_prix($nomination->getid_categorie());
-					echo $categorie;
 					$prix = Prix::initPrix($categorie->getid_prix());
-					echo $prix;
+					$film = Film::initFilm($concerne->getid_film());
 					echo '<h1>Prix gagné(s) : <h1>';
 					if(!empty($prix)){
 						echo '<ul>';
@@ -41,6 +39,10 @@
 						$lien .= '<li><a href="detail_prix.php?id='.$prix->getid_prix().'"><img width=70 height=70 alt="'.$prix->getnom_prix().'" src="Illustrations/Prix/'.$prix->getid_prix().'.png"></a>'.$prix->getnom_prix().' </li>';
 						echo $lien;
 						echo '</ul>';
+						echo 'Titre du film nominé : '.$film->getTitre_film().'<br/>';
+						echo 'Titre original du film nominé : '.$film->getTitre_original().'<br/>';
+						echo '<a href="detail_film.php?id='.$film->getId_film().'"><img width=70 height=70 alt="'.$film->getTitre_film().'" src="Illustrations/Film/'.$film->getId_film().'.png"></a>';
+						echo '<br/>';
 					}
 				} else {
 					echo '<h1>Aucun Prix gagné<h1>';
