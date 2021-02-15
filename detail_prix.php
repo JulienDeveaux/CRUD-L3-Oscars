@@ -4,6 +4,10 @@
 	include 'Prix.php';
 	include 'Ceremonie.php';
 	include 'Organisation.php';
+	include 'Categorie.php';
+	include 'Nomination.php';
+	include 'Concerne.php';
+	include 'Recipiendaire.php';
 
 	if(!empty($_GET['id'])){
 		if(is_numeric($_GET['id'])){
@@ -25,6 +29,13 @@
 				$organisation = Organisation::initOrganisation($prix->getid_organisation());
 				echo '<h1>Organisation : '.$organisation->getnom_organisation().'</h1>';
 				echo '<h2>Type de l\'organisation : '.$organisation->gettype_organisation().'</h2>';
+
+				echo '<h1>Récipiendaires qui ont obtenus ce prix : </h1>';
+				$categorie = Categorie::initCategorie_prix($prix->getid_prix());
+				$nomination = Nomination::initNomination_categorie($categorie->getid_categorie());
+				$concerne = Concerne::initConcerne_nomination($nomination->getid_nomination());
+				$recipienadaire = Recipiendaire::initRecipiendaire($concerne->getid_recipiendaire());
+				echo '<h2>'.$recipienadaire->getnom_recipiendaire().' '.$recipienadaire->getprenom_recipiendaire().'</h2>';
 			}
 		} else {
 			// Erreur : id incorrecte renseigné dans l'url : cas non atteint en navigation normale sur le site
