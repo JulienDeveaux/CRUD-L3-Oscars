@@ -29,11 +29,6 @@ if(isset ($_GET['nom'])){
 	$recipiendaire->setprenom_recipiendaire($_GET['prenom']);
 	$recipiendaire->save();
 
-	$concerne->setid_film($_GET['film']);
-	$nomination->setid_ceremonie($_GET['ceremonie']);
-	$categorief = Categorie::initCategorie_prix($_GET['prix']);
-	$nomination->setid_categorie($categorief);
-
 
 	//echo  '<meta http-equiv="refresh" content="0;URL=page_recipiendaire.php" />';
 } else {
