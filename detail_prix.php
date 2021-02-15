@@ -34,8 +34,8 @@
 				$categorie = Categorie::initCategorie_prix($prix->getid_prix());
 				$nomination = Nomination::initNomination_categorie($categorie->getid_categorie());
 				$concerne = Concerne::initConcerne_nomination($nomination->getid_nomination());
-				$recipienadaire = Recipiendaire::initRecipiendaire($concerne->getid_recipiendaire());
-				echo '<h2>'.$recipienadaire->getnom_recipiendaire().' '.$recipienadaire->getprenom_recipiendaire().'</h2>';
+				$recipiendaire = Recipiendaire::initRecipiendaire($concerne->getid_recipiendaire());
+				echo '<h2>'.$recipiendaire->getnom_recipiendaire().' '.$recipiendaire->getprenom_recipiendaire().'</h2>';
 			}
 		} else {
 			// Erreur : id incorrecte renseigné dans l'url : cas non atteint en navigation normale sur le site
