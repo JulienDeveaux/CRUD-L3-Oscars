@@ -47,7 +47,7 @@ class Recipiendaire {
      * Initialisation de la connexion et mémorisation de l'instance PDO dans Recipiendaire::$_pdo
      */ 
     public static function initPDO() {
-        self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");
+        self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
         // pour récupérer aussi les exceptions provenant de PDOStatement
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -59,6 +59,15 @@ class Recipiendaire {
     public static function initPDOS_selectAll() {
         self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Recipiendaire ORDER BY id_recipiendaire');
     }
+
+	/**
+	 * préparation de la requête SELECT * FROM Recipiendaire
+	 * instantiation de self::$_pdos_selectAll
+	 * @param Prix $Prix
+	 */
+	public static function initPDOS_selectAllRecipiendaireFromPrix(Prix $Prix) {
+		self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Recipiendaire NATURAL JOIN ON CONCERNE NATURAL');
+	}
 
      /**
      * méthode statique instanciant Recipiendaire::$_pdo_select
@@ -85,7 +94,7 @@ class Recipiendaire {
      * méthode statique instanciant Recipiendaire::$_pdo_delete
      */ 
     public static function initPDOS_delete() {
-        self::$_pdos_delete = self::$_pdo->prepare('DELETE FROM Recipiendaire WHERE id_recipiendaire=:recipiendaire');
+        self::$_pdos_delete = self::$_pdo->prepare('DELETE FROM Recipiendaire WHERE id_recipiendaire=:id_recipiendaire');
     }
 
     /**
