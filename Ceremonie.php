@@ -43,8 +43,6 @@ class Ceremonie {
         */
      private static $_pdos_selectAll;
 
-
-
     /**
      * Initialisation de la connexion et mémorisation de l'instance PDO dans fonction_prix::$_pdo
      */ 
@@ -73,7 +71,7 @@ class Ceremonie {
      * méthode statique instanciant Ceremonie::$_pdo_update
      */ 
     public static function initPDOS_update() {
-        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Ceremonie SET id_ceremonie=:id_ceremonie, nom_ceremonie=:nom, lieu_ceremonie=:lieu, date_ceremonie=:date, id_prix=:id_prix WHERE id_ceremonie=:id_ceremonie');
+        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Ceremonie SET nom_ceremonie=:nom, lieu_ceremonie=:lieu, date_ceremonie=:date, id_prix=:id_prix WHERE id_ceremonie=:id_ceremonie');
     }
 
     /**
@@ -99,7 +97,6 @@ class Ceremonie {
             self::initPDO();
         self::$_pdos_count = self::$_pdo->prepare('SELECT COUNT(*) FROM Ceremonie');
     }
-
 
      /**
      * numéro du Ceremonie (identifiant dans la table Ceremonie)
@@ -294,7 +291,7 @@ class Ceremonie {
         else {
             if (!isset(self::$_pdos_update))
                 self::initPDOS_update();
-            self::$_pdos_update->bindParam(':id_ceremonie', $this->id_prix);
+            self::$_pdos_update->bindParam(':id_ceremonie', $this->id_ceremonie);
             self::$_pdos_update->bindParam(':nom', $this->nom_ceremonie);
             self::$_pdos_update->bindParam(':lieu', $this->lieu_ceremonie);
 			self::$_pdos_update->bindParam(':date', $this->date_ceremonie);
@@ -341,7 +338,11 @@ class Ceremonie {
         $ch.= "<td>".$this->lieu_ceremonie."</td>";
 		$ch.= "<td>".$this->date_ceremonie."</td>";
 		$ch.= "<td>".$this->id_prix."</td>";
-        $ch.= "<td>".$this->nouveau."</td>";
+		if($this->nouveau == false) {
+            $ch.= "<td>false</td>";
+        } else {
+            $ch.= "<td>true</td>";
+        }
         $ch.= "</tr></table>";
         return $ch;
     }
