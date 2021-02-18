@@ -16,7 +16,7 @@
 			if(!empty($ceremonie)){
 				$prix = Prix::initPrix($ceremonie->getid_prix());
                 $categorie = Categorie::initCategorie_prix($prix->getid_prix());
-                $nomination = Nomination::initNomination_categorie($categorie->getid_categorie());
+                $nomination = Nomination::initNomination_ceremonie($ceremonie->getid_ceremonie());
                 $concerne = Concerne::initConcerne_nomination($nomination->getid_nomination());
                 $film = Film::initFilm($concerne->getid_film());
                 $recipiendaire = Recipiendaire::initRecipiendaire($concerne->getid_recipiendaire());
