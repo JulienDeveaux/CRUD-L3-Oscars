@@ -60,6 +60,14 @@ class Ceremonie {
         self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Ceremonie ORDER BY id_ceremonie');
     }
 
+    /**
+     * préparation de la requête SELECT * FROM Ceremonie
+     * instantiation de self::$_pdos_selectAll
+        */
+    public static function initPDOS_selectAllByName($nom) {
+        self::$_pdos_selectAll = self::$_pdo->prepare("SELECT * FROM Ceremonie WHERE nom_ceremonie LIKE '%".$nom."%'");
+    }
+
      /**
      * méthode statique instanciant Ceremonie::$_pdo_select
      */ 
@@ -198,7 +206,7 @@ class Ceremonie {
     /**
      * @return $this->id_ceremonie
      */ 
-    public function getid_ceremonie() : string {
+    public function getid_ceremonie() : int {
         return $this->id_ceremonie;
     }
 
@@ -243,7 +251,26 @@ class Ceremonie {
     }
 
     /**
-     * initialisation d'un objet métier à partir d'un enregistrement de Ceremonie
+     * @return un tableau de tous les Ceremonie
+     */
+    public static function getCeremonieByNom($nom): array {
+        try {
+            if (!isset(self::$_pdo))
+                self::initPDO();
+            if (!isset(self::$_pdos_selectAll))
+                self::initPDOS_selectAllByName($nom);
+            self::$_pdos_selectAll->execute();
+            // résultat du fetch dans une instance de Ceremonie
+            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Ceremonie');
+            return $lesLivres;
+        }
+        catch (PDOException $e) {
+            print($e);
+        }
+    }
+
+    /**
+     * initialisation d'un objet à partir d'un enregistrement de Ceremonie
      * @param $id_ceremonie un identifiant de Ceremonie
      * @return l'instance de Ceremonie associée à $id_ceremonie
      */ 
