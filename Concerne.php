@@ -71,7 +71,7 @@ class Concerne {
      * méthode statique instanciant Concerne::$_pdo_select
      */ 
     public static function initPDOS_select_film() {
-        self::$_pdos_select = self::$_pdo->prepare('SELECT * FROM Concerne WHERE id_film= :id_film');
+        self::$_pdos_select = self::$_pdo->prepare("SELECT * FROM Concerne WHERE id_film = :id_film");
     }
 
     /**
@@ -85,9 +85,8 @@ class Concerne {
      * méthode statique instanciant Concerne::$_pdo_update
      */ 
     public static function initPDOS_update() {
-        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Concerne SET fonction=:fonction, nom_contribution=:contribution, id_film=:id_film, id_recipiendaire=:id_recipiendaire, =:id_nomination=:id_nomination');
+        self::$_pdos_update =  self::$_pdo->prepare('UPDATE Concerne SET fonction=:fonction, nom_contribution=:contribution, id_film=:id_film, id_recipiendaire=:id_recipiendaire, id_nomination=:id_nomination');
     }
-
     /**
      * méthode statique instanciant Concerne::$_pdo_insert
      */ 
@@ -289,8 +288,9 @@ class Concerne {
                 self::initPDO();
             if (!isset(self::$_pdos_select))
                 self::initPDOS_select_film();
-            self::$_pdos_select->bindValue(':id_film',$id_film);
-            self::$_pdos_select->execute();
+            self::$_pdos_select = self::$_pdo->prepare("SELECT * FROM Concerne WHERE id_film = :id_film");
+            //self::$_pdos_select->bindValue(':id_film', $id_film);
+            self::$_pdos_select->execute(array(':id_film' => $id_film));
         // résultat du fetch dans une instance de Concerne
             $lm = self::$_pdos_select->fetchObject('Concerne');
             if (isset($lm) && ! empty($lm))
