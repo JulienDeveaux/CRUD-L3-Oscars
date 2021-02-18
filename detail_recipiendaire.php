@@ -29,8 +29,8 @@
 					echo '</ul>';
 				}
 				if($nomination->getgagnante_nomination() == true) {
-					$categorie = Categorie::initCategorie_prix($nomination->getid_categorie());
-					$prix = Prix::initPrix($categorie->getid_prix());
+					$ceremonie = Ceremonie::initCeremonie($nomination->getid_ceremonie());
+					$prix = Prix::initPrix($ceremonie->getid_prix());
 					$film = Film::initFilm($concerne->getid_film());
 					echo '<h1>Prix gagné(s) : <h1>';
 					if(!empty($prix)){
