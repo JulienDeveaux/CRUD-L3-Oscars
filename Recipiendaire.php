@@ -55,18 +55,17 @@ class Recipiendaire {
     /**
      * préparation de la requête SELECT * FROM Recipiendaire
      * instantiation de self::$_pdos_selectAll
-        */
+     */
     public static function initPDOS_selectAll() {
         self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Recipiendaire ORDER BY id_recipiendaire');
     }
 
 	/**
 	 * préparation de la requête SELECT * FROM Recipiendaire
-	 * instantiation de self::$_pdos_selectAll
-	 * @param Prix $Prix
+	 * instantiation de self::$_pdos_selectAllx
 	 */
-	public static function initPDOS_selectAllRecipiendaireFromPrix(Prix $Prix) {
-		self::$_pdos_selectAll = self::$_pdo->prepare('SELECT * FROM Recipiendaire NATURAL JOIN ON CONCERNE NATURAL');
+	public static function initPDOS_selectAllPrix($id_prix) {
+		self::$_pdos_selectAll = self::$_pdo->prepare('SELECT DISTINCT * FROM Recipiendaire NATURAL JOIN CONCERNE NATURAL JOIN NOMINATION NATURAL JOIN Ceremonie NATURAL JOIN Prix WHERE id_prix ='.$id_prix);
 	}
 
      /**
@@ -226,6 +225,25 @@ class Recipiendaire {
             if (empty($lm))
                 throw new Exception("Recipiendaire $id_recipiendaire inexistant dans la table Recipiendaire.\n");
             return $lm;
+        }
+        catch (PDOException $e) {
+            print($e);
+        }
+    }
+
+    /**
+     * @return un tableau de tous les Recipiendaire
+     */
+    public static function getRecipiendaireListPrix($id_prix): array {
+        try {
+            if (!isset(self::$_pdo))
+                self::initPDO();
+            if (!isset(self::$_pdos_selectAll))
+                self::initPDOS_selectAllPrix($id_prix);
+            self::$_pdos_selectAll->execute();
+            // résultat du fetch dans une instance de Recipiendaire
+            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Recipiendaire');
+            return $lesLivres;
         }
         catch (PDOException $e) {
             print($e);
