@@ -11,7 +11,7 @@ if(isset($idOrgaMax)) {
 }
 if(isset ($_GET['nom'])){
 	$organisation = Organisation::initOrganisation(1);
-	$organisation->setid_organisation($idOrgaMax + 1);
+	$organisation->setid_organisation($idOrgaMax);
 	$organisation->setNouveau(true);
 	$organisation->setnom_organisation($_GET['nom']);
 	$organisation->settype_organisation($_GET['type']);
