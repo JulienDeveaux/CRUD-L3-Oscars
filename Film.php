@@ -46,10 +46,8 @@ class Film
      */
     private static $_pdos_selectAll;
 
-
-
     /**
-     * Initialisation de la connexion et mémorisation de l'instance PDO dans Films::$_pdo
+     * Initialisation de la connexion et mémorisation de l'instance PDO dans Film::$_pdo
      */
     public static function initPDO() {
         self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");// pour récupérer aussi les exceptions provenant de PDOStatement
@@ -202,7 +200,6 @@ class Film
         }
     }
 
-
     /**
      * initialisation d'un objet à partir d'un enregistrement de Film
      * @param $id_film un identifiant de film
@@ -217,12 +214,12 @@ class Film
             self::$_pdos_select->bindValue(':identifiant',$id_film);
             self::$_pdos_select->execute();
             // résultat du fetch dans une instance de Film
-            $lm = self::$_pdos_select->fetchObject('Film');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lf = self::$_pdos_select->fetchObject('Film');
+            if (isset($lf) && ! empty($lf))
+                $lf->setNouveau(FALSE);
+            if (empty($lf))
                 throw new Exception("Film $id_film inexistant dans la table Film.\n");
-            return $lm;
+            return $lf;
         }
         catch (PDOException $e) {
             print($e);
@@ -284,8 +281,6 @@ class Film
         $resu = self::$_pdos_count->fetch();
         return $resu[0];
     }
-
-
 
     /**
      * affichage élémentaire

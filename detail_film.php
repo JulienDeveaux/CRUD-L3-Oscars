@@ -9,9 +9,12 @@ include 'Nomination.php';
 include 'Concerne.php';
 
 if(!empty($_GET['id'])){
+
     if(is_numeric($_GET['id'])){
+
         $film = Film::initFilm(intval($_GET['id']));
         if(!empty($film)) {
+
             try {
                 echo '<h1>Titre : ' . $film->gettitre_film() . '</h1>';
                 echo '<h2>Titre original : ' . $film->gettitre_original() . '</h2>';
@@ -20,14 +23,18 @@ if(!empty($_GET['id'])){
                 $ceremonie = Ceremonie::initCeremonie($nomination->getid_ceremonie());
                 $recipiendaire = Recipiendaire::initRecipiendaire($concerne->getid_recipiendaire());
                 echo '<h1>Par : ' . $recipiendaire->getnom_recipiendaire() . ' ' . $recipiendaire->getprenom_recipiendaire() . '</h1>';
+
                 if ($nomination->getgagnante_nomination() == true) {
                     echo '<h1>Récompensé par ' . $ceremonie->getnom_ceremonie() . ' le ' . $ceremonie->getdate_ceremonie() . ' à ' . $ceremonie->getlieu_ceremonie() . '</h1>';
+
                 } else {
                     echo '<h1>A particité à ' . $ceremonie->getnom_ceremonie() . ' le ' . $ceremonie->getdate_ceremonie() . ' à ' . $ceremonie->getlieu_ceremonie() . '</h1>';
                 }
                 echo '<img width=100 height=150 alt="' . $film->getId_film() . '" src="Illustrations/Film/' . $film->getId_film() . '.png">';
                 echo '</br>';
+
             } catch (Exception $e) {
+
                 echo '<h1>Par : inconnu</h1>';
                 echo '<img width=100 height=150 alt="' . $film->getId_film() . '" src="Illustrations/Film/' . $film->getId_film() . '.png">';
                 echo '</br>';

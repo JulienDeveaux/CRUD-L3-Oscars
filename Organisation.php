@@ -44,7 +44,7 @@ class Organisation {
 	private static $_pdos_selectAll;
 
 	/**
-	 * Initialisation de la connexion et mémorisation de l'instance PDO dans fonction_prix::$_pdo
+	 * Initialisation de la connexion et mémorisation de l'instance PDO dans Organisation::$_pdo
 	 */
 	public static function initPDO() {
 		self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
@@ -100,7 +100,7 @@ class Organisation {
 
 	/**
 	 * identifiant de l'organisation
-	 * @var integer
+	 * @var int
 	 */
 	protected $id_organisation;
 
@@ -125,7 +125,7 @@ class Organisation {
 	/**
 	 * @return $this->id_organisation
 	 */
-	public function getid_organisation() : string {
+	public function getid_organisation() : int {
 		return $this->id_organisation;
 	}
 
@@ -189,8 +189,8 @@ class Organisation {
 				self::initPDOS_selectAll();
 			self::$_pdos_selectAll->execute();
 			// résultat du fetch dans une instance de Organisation
-			$lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Organisation');
-			return $lesLivres;
+			$lesOrganisations = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Organisation');
+			return $lesOrganisations;
 		}
 		catch (PDOException $e) {
 			print($e);
@@ -198,7 +198,7 @@ class Organisation {
 	}
 
 	/**
-	 * initialisation d'un objet métier à partir d'un enregistrement de Organisation
+	 * initialisation d'un objet à partir d'un enregistrement de Organisation
 	 * @param $id_organisation identifiant de Organisation
 	 * @return l'instance de Organisation associée à $id_organisation
 	 */
@@ -211,12 +211,12 @@ class Organisation {
 			self::$_pdos_select->bindValue(':id_organisation',$id_organisation);
 			self::$_pdos_select->execute();
 			// résultat du fetch dans une instance de Nomination
-			$lm = self::$_pdos_select->fetchObject('Organisation');
-			if (isset($lm) && ! empty($lm))
-				$lm->setNouveau(FALSE);
-			if (empty($lm))
+			$lo = self::$_pdos_select->fetchObject('Organisation');
+			if (isset($lo) && ! empty($lo))
+				$lo->setNouveau(FALSE);
+			if (empty($lo))
 				throw new Exception("Organisation $id_organisation inexistant dans la table Organisation.\n");
-			return $lm;
+			return $lo;
 		}
 		catch (PDOException $e) {
 			print($e);
@@ -224,7 +224,7 @@ class Organisation {
 	}
 
 	/**
-	 * sauvegarde d'un objet métier
+	 * sauvegarde d'un objet
 	 * soit on insère un nouvel objet
 	 * soit on le met à jour
 	 */
@@ -252,7 +252,7 @@ class Organisation {
 	}
 
 	/**
-	 * suppression d'un objet métier
+	 * suppression d'un objet
 	 */
 	public function delete() :void {
 		if (!isset(self::$_pdo))
@@ -270,7 +270,7 @@ class Organisation {
 	}
 
 	/**
-	 * nombre d'objets metier disponible dans la table
+	 * nombre d'objets disponible dans la table
 	 */
 	public static function getNbOrganisation() : int {
 		if (!isset(self::$_pdos_count)) {

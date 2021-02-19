@@ -114,7 +114,7 @@ class Categorie {
 
 	/**
 	 * identifiant de la Categorie
-	 * @var string
+	 * @var int
 	 */
 	protected $id_categorie;
 
@@ -126,7 +126,7 @@ class Categorie {
 
 	/**
 	 * id du prix
-	 *   @var string
+	 *   @var int
 	 */
 	protected $id_prix;
 
@@ -203,8 +203,8 @@ class Categorie {
 				self::initPDOS_selectAll();
 			self::$_pdos_selectAll->execute();
 			// résultat du fetch dans une instance de Categorie
-			$lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Categorie');
-			return $lesLivres;
+			$lesCategories = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Categorie');
+			return $lesCategories;
 		}
 		catch (PDOException $e) {
 			print($e);
@@ -225,12 +225,12 @@ class Categorie {
 			self::$_pdos_select->bindValue(':id_categorie',$id_categorie);
 			self::$_pdos_select->execute();
 			// résultat du fetch dans une instance de Categorie
-			$lm = self::$_pdos_select->fetchObject('Categorie');
-			if (isset($lm) && ! empty($lm))
-				$lm->setNouveau(FALSE);
-			if (empty($lm))
+			$lc = self::$_pdos_select->fetchObject('Categorie');
+			if (isset($lc) && ! empty($lc))
+				$lc->setNouveau(FALSE);
+			if (empty($lc))
 				throw new Exception("categorie $id_categorie inexistant dans la table Categorie.\n");
-			return $lm;
+			return $lc;
 		}
 		catch (PDOException $e) {
 			print($e);
@@ -251,12 +251,12 @@ class Categorie {
             self::$_pdos_select->bindValue(':id_prix',$id_prix);
             self::$_pdos_select->execute();
             // résultat du fetch dans une instance de Categorie
-            $lm = self::$_pdos_select->fetchObject('Categorie');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lc = self::$_pdos_select->fetchObject('Categorie');
+            if (isset($lc) && ! empty($lc))
+                $lc->setNouveau(FALSE);
+            if (empty($lc))
                 throw new Exception("prix $id_prix inexistant dans la table Categorie.\n");
-            return $lm;
+            return $lc;
         }
         catch (PDOException $e) {
             print($e);
@@ -264,7 +264,7 @@ class Categorie {
     }
 
 	/**
-	 * sauvegarde d'un objet métier
+	 * sauvegarde d'un objet
 	 * soit on insère un nouvel objet
 	 * soit on le met à jour
 	 */
@@ -292,7 +292,7 @@ class Categorie {
 	}
 
 	/**
-	 * suppression d'un objet métier
+	 * suppression d'un objet
 	 */
 	public function delete() :void {
 		if (!isset(self::$_pdo))
@@ -310,7 +310,7 @@ class Categorie {
 	}
 
 	/**
-	 * nombre d'objets metier disponible dans la table
+	 * nombre d'objets disponible dans la table
 	 */
 	public static function getNbCategorie() : int {
 		if (!isset(self::$_pdos_count)) {

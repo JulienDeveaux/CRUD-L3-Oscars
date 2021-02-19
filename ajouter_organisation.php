@@ -6,9 +6,11 @@ include 'Organisation.php';
 echo '<form action="ajouter_organisation.php" method="get" >';
 $organisation = Organisation::initOrganisation(1);
 $idOrgaMax =  $organisation->getNbOrganisation();
+
 if(isset($idOrgaMax)) {
 	$idOrgaMax++;
 }
+
 if(isset ($_GET['nom'])){
 	$organisation = Organisation::initOrganisation(1);
 	$organisation->setid_organisation($idOrgaMax);
@@ -24,7 +26,7 @@ if(isset ($_GET['nom'])){
 	echo '<br/>';
 	echo '<p><br/>';
 	echo 'Type de l\'organisation : ';
-	$combobox = '<select name="type">';
+	$combobox  = '<select name="type">';
 	$combobox .= '<option value="Académie">Académie</option>';
 	$combobox .= '<option value="Associations">Associations</option>';
 	$combobox .= '<option value="Média">Média</option>';
@@ -32,9 +34,9 @@ if(isset ($_GET['nom'])){
 	echo $combobox;
 	echo '<br/>';
 
-	echo '<button type="submit" name="valider" > Valider </button>';
-	echo '<button type="reset" name="annuler"> Effacer </button>';
-	echo '<br/><a href="page_organisation.php">Retour à la liste des organisations</a>';
+	echo '<button type="submit" name="valider"> Valider </button>';
+	echo '<button type="reset" name="annuler" > Effacer </button>';
+	echo '<br/><a href="page_organisation.php"> Retour à la liste des organisations</a>';
 }
 include  'finKtml.html';
 ?>

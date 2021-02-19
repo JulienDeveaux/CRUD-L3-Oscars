@@ -6,6 +6,7 @@ include 'Organisation.php';
 
 echo '<form action="modifier_prix.php" method="get" >';
 $prix = Prix::initPrix(intval($_GET['id']));
+
 if(isset ($_GET['nom_prix'])){
 	$prix = Prix::initPrix($_GET['id']);
 	$organisation = Organisation::initOrganisation($_GET['ComboBox']);
@@ -21,17 +22,22 @@ if(isset ($_GET['nom_prix'])){
 	echo 'Nom du prix : <input type="text" name="nom_prix" value="' . $prix->getnom_prix() . '" size=50 required>';
 	echo '<br/>';
 	echo 'Organisation du prix :';
+
 	$combobox = '<select name="ComboBox">';
 	for($i = 0; $i < sizeof($organisation); $i++) {
-		$combobox .= '<option value="'.$organisation[$i]->getid_organisation().'">'.$organisation[$i]->getnom_organisation().'</option>';
+		$combobox .= '<option value="'
+            .$organisation[$i]->getid_organisation().'">'
+            .$organisation[$i]->getnom_organisation().'</option>';
 	}
 	$combobox .= '</select>';
 	echo $combobox;
+
 	echo '<br/>';
 	echo '<input type="hidden" name="id" value="'.$prix->getid_prix().'">';
+
 	echo '<button type="submit" name="valider" > Valider </button>';
-	echo '<button type="reset" name="annuler"> Effacer </button>';
-	echo '<br/><a href="page_prix.php">Retour à la liste des prix</a>';
+	echo '<button type="reset" name="annuler"  > Effacer </button>';
+	echo '<br/><a href="page_prix.php"         > Retour à la liste des prix</a>';
 }
 include 'finKtml.html';
 ?>

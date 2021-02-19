@@ -161,7 +161,7 @@ class Recipiendaire {
     /**
      * @return $this->id_recipiendaire
      */ 
-    public function getid_recipiendaire() : string {
+    public function getid_recipiendaire() : int {
         return $this->id_recipiendaire;
     }
 
@@ -197,34 +197,8 @@ class Recipiendaire {
                 self::initPDOS_selectAll();
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de Recipiendaire
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Recipiendaire');
-            return $lesLivres;
-        }
-        catch (PDOException $e) {
-            print($e);
-        }
-    }
-
-    /**
-     * initialisation d'un objet métier à partir d'un enregistrement de Recipiendaire
-     * @param $id_recipiendaire un identifiant de Recipiendaire
-     * @return l'instance de Recipiendaire associée à $id_recipiendaire
-     */ 
-    public static function initRecipiendaire($id_recipiendaire) : Recipiendaire {
-        try {
-            if (!isset(self::$_pdo))
-                self::initPDO();
-            if (!isset(self::$_pdos_select))
-                self::initPDOS_select();
-            self::$_pdos_select->bindValue(':id_recipiendaire',$id_recipiendaire);
-            self::$_pdos_select->execute();
-        // résultat du fetch dans une instance de Recipiendaire
-            $lm = self::$_pdos_select->fetchObject('Recipiendaire');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
-                throw new Exception("Recipiendaire $id_recipiendaire inexistant dans la table Recipiendaire.\n");
-            return $lm;
+            $lesRecipiendaires = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Recipiendaire');
+            return $lesRecipiendaires;
         }
         catch (PDOException $e) {
             print($e);
@@ -242,8 +216,8 @@ class Recipiendaire {
                 self::initPDOS_selectAllPrix($id_prix);
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de Recipiendaire
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Recipiendaire');
-            return $lesLivres;
+            $lesRecipiendaires = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Recipiendaire');
+            return $lesRecipiendaires;
         }
         catch (PDOException $e) {
             print($e);
@@ -251,7 +225,33 @@ class Recipiendaire {
     }
 
     /**
-     * sauvegarde d'un objet métier
+     * initialisation d'un objet à partir d'un enregistrement de Recipiendaire
+     * @param $id_recipiendaire un identifiant de Recipiendaire
+     * @return l'instance de Recipiendaire associée à $id_recipiendaire
+     */ 
+    public static function initRecipiendaire($id_recipiendaire) : Recipiendaire {
+        try {
+            if (!isset(self::$_pdo))
+                self::initPDO();
+            if (!isset(self::$_pdos_select))
+                self::initPDOS_select();
+            self::$_pdos_select->bindValue(':id_recipiendaire',$id_recipiendaire);
+            self::$_pdos_select->execute();
+        // résultat du fetch dans une instance de Recipiendaire
+            $lr = self::$_pdos_select->fetchObject('Recipiendaire');
+            if (isset($lr) && ! empty($lr))
+                $lr->setNouveau(FALSE);
+            if (empty($lr))
+                throw new Exception("Recipiendaire $id_recipiendaire inexistant dans la table Recipiendaire.\n");
+            return $lr;
+        }
+        catch (PDOException $e) {
+            print($e);
+        }
+    }
+
+    /**
+     * sauvegarde d'un objet
      * soit on insère un nouvel objet
      * soit on le met à jour
      */ 
@@ -279,7 +279,7 @@ class Recipiendaire {
     }
 
     /**
-     * suppression d'un objet métier
+     * suppression d'un objet
      */ 
     public function delete() :void {
         if (!isset(self::$_pdo))
@@ -295,7 +295,7 @@ class Recipiendaire {
     }
 
     /**
-     * nombre d'objets metier disponible dans la table
+     * nombre d'objets disponible dans la table
      */
     public static function getNbRecipiendaire() : int {
         if (!isset(self::$_pdos_count)) {
@@ -305,8 +305,6 @@ class Recipiendaire {
         $resu = self::$_pdos_count->fetch();
         return $resu[0];
     }
-
-
 
     /**
      * affichage élémentaire

@@ -44,7 +44,7 @@ class Nomination {
     private static $_pdos_selectAll;
 
     /**
-     * Initialisation de la connexion et mémorisation de l'instance PDO dans fonction_prix::$_pdo
+     * Initialisation de la connexion et mémorisation de l'instance PDO dans Nomiation::$_pdo
      */
     public static function initPDO() {
         self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
@@ -114,7 +114,7 @@ class Nomination {
 
     /**
      * identifiant de la nomination
-     * @var integer
+     * @var int
      */
     protected $id_nomination;
 
@@ -126,13 +126,13 @@ class Nomination {
 
     /**
      * id de la catégorie
-     *   @var integer
+     *   @var int
      */
     protected $id_categorie;
 
     /**
      * id de la cérémonie
-     *   @var integer
+     *   @var int
      */
     protected $id_ceremonie;
 
@@ -145,7 +145,7 @@ class Nomination {
     /**
      * @return $this->id_nomination
      */
-    public function getid_nomination() : string {
+    public function getid_nomination() : int {
         return $this->id_nomination;
     }
 
@@ -159,7 +159,7 @@ class Nomination {
     /**
      * @return $this->gagnante_nomination
      */
-    public function getgagnante_nomination() : string {
+    public function getgagnante_nomination() : boolean {
         return $this->gagnante_nomination;
     }
 
@@ -173,7 +173,7 @@ class Nomination {
     /**
      * @return $this->id_ceremonie
      */
-    public function getid_ceremonie() : string {
+    public function getid_ceremonie() : int {
         return $this->id_ceremonie;
     }
 
@@ -187,7 +187,7 @@ class Nomination {
     /**
      * @return $this->id_categorie
      */
-    public function getid_categorie() : string {
+    public function getid_categorie() : int {
         return $this->id_categorie;
     }
 
@@ -223,8 +223,8 @@ class Nomination {
                 self::initPDOS_selectAll();
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de Nomination
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Nomination');
-            return $lesLivres;
+            $lesFilm = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Nomination');
+            return $lesFilm;
         }
         catch (PDOException $e) {
             print($e);
@@ -232,7 +232,7 @@ class Nomination {
     }
 
     /**
-     * initialisation d'un objet métier à partir d'un enregistrement de Nomination
+     * initialisation d'un objet à partir d'un enregistrement de Nomination
      * @param $id_nomination identifiant de Nomination
      * @return l'instance de Concerne associée à $id_nomination
      */
@@ -245,12 +245,12 @@ class Nomination {
             self::$_pdos_select->bindValue(':id_nomination',$id_nomination);
             self::$_pdos_select->execute();
             // résultat du fetch dans une instance de Nomination
-            $lm = self::$_pdos_select->fetchObject('Nomination');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lf = self::$_pdos_select->fetchObject('Nomination');
+            if (isset($lf) && ! empty($lf))
+                $lf->setNouveau(FALSE);
+            if (empty($lf))
                 throw new Exception("Nomination $id_nomination inexistant dans la table Nomination.\n");
-            return $lm;
+            return $lf;
         }
         catch (PDOException $e) {
             print($e);
@@ -258,7 +258,7 @@ class Nomination {
     }
 
     /**
-     * initialisation d'un objet métier à partir d'un enregistrement de Nomination
+     * initialisation d'un objet à partir d'un enregistrement de Nomination
      * @param $id_ceremonie un identifiant de Nomination
      * @return l'instance de Concerne associée à $id_ceremonie
      */
@@ -271,12 +271,12 @@ class Nomination {
             self::$_pdos_select->bindValue(':ceremonie',$id_ceremonie);
             self::$_pdos_select->execute();
             // résultat du fetch dans une instance de Nomination
-            $lm = self::$_pdos_select->fetchObject('Nomination');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
-                throw new Exception("Nomination $id_ceremonie inexistant dans la table Nomination.\n");
-            return $lm;
+            $lf = self::$_pdos_select->fetchObject('Nomination');
+            if (isset($lf) && ! empty($lf))
+                $lf->setNouveau(FALSE);
+            if (empty($lf))
+                throw new Exception("Ceremonie $id_ceremonie inexistant dans la table Nomination.\n");
+            return $lf;
         }
         catch (PDOException $e) {
             print($e);
@@ -284,7 +284,7 @@ class Nomination {
     }
 
     /**
-     * initialisation d'un objet métier à partir d'un enregistrement de Nomination
+     * initialisation d'un objet à partir d'un enregistrement de Nomination
      * @param $id_categorie un identifiant de Nomination
      * @return l'instance de Nomination associée à $id_categorie
      */
@@ -297,12 +297,12 @@ class Nomination {
             self::$_pdos_select->bindValue(':categorie',$id_categorie);
             self::$_pdos_select->execute();
             // résultat du fetch dans une instance de Concerne
-            $lm = self::$_pdos_select->fetchObject('Nomination');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lf = self::$_pdos_select->fetchObject('Nomination');
+            if (isset($lf) && ! empty($lf))
+                $lf->setNouveau(FALSE);
+            if (empty($lf))
                 throw new Exception("Categorie $id_categorie inexistant dans la table Nomination.\n");
-            return $lm;
+            return $lf;
         }
         catch (PDOException $e) {
             print($e);
@@ -310,7 +310,7 @@ class Nomination {
     }
 
     /**
-     * sauvegarde d'un objet métier
+     * sauvegarde d'un objet
      * soit on insère un nouvel objet
      * soit on le met à jour
      */
@@ -340,7 +340,7 @@ class Nomination {
     }
 
     /**
-     * suppression d'un objet métier
+     * suppression d'un objet
      */
     public function delete() :void {
         if (!isset(self::$_pdo))
@@ -359,7 +359,7 @@ class Nomination {
     }
 
     /**
-     * nombre d'objets metier disponible dans la table
+     * nombre d'objets disponible dans la table
      */
     public static function getNbNomination() : int {
         if (!isset(self::$_pdos_count)) {

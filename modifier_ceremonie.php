@@ -5,6 +5,7 @@ include 'Ceremonie.php';
 
 echo '<form action="modifier_ceremonie.php" method="get" >';
 $ceremonie = Ceremonie::initCeremonie(intval($_GET['id']));
+
 if(isset ($_GET['nom'])){
 	$ceremonie = Ceremonie::initCeremonie($_GET['id']);
 	$ceremonie->setdate_ceremonie($_GET['date']);
@@ -23,9 +24,10 @@ if(isset ($_GET['nom'])){
 	echo 'Date de la ceremonie : <input type="date" name="date" value="'.$ceremonie->getdate_ceremonie().'" max="'. date("Y-m-d").'" size="50" required>';
 	echo '<br/>';
 	echo '<input type="hidden" name="id" value="'.$ceremonie->getid_ceremonie().'">';
+
 	echo '<button type="submit" name="valider" > Valider </button>';
-	echo '<button type="reset" name="annuler"> Effacer </button>';
-	echo '<br/><a href="page_ceremonie.php">Retour à la liste des cérémonies</a></p>';
+	echo '<button type="reset" name="annuler"  > Effacer </button>';
+	echo '<br/><a href="page_ceremonie.php"    > Retour à la liste des cérémonies</a></p>';
 }
 include 'finKtml.html';
 ?>

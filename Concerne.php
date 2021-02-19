@@ -44,7 +44,7 @@ class Concerne {
      private static $_pdos_selectAll;
 
     /**
-     * Initialisation de la connexion et mémorisation de l'instance PDO dans fonction_prix::$_pdo
+     * Initialisation de la connexion et mémorisation de l'instance PDO dans Concerne::$_pdo
      */ 
     public static function initPDO() {
         self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
@@ -125,19 +125,19 @@ class Concerne {
 
     /**
      * id du film
-     *   @var string
+     *   @var int
      */ 
     protected $id_film;
 
     /**
      * id du recipiendaire
-     *   @var string
+     *   @var int
      */ 
     protected $id_recipiendaire;
 
     /**
      * id de la nomination
-     *   @var string
+     *   @var int
      */ 
     protected $id_nomination;
 
@@ -178,7 +178,7 @@ class Concerne {
     /**
      * @return $this->id_film
      */ 
-    public function getid_film() : string {
+    public function getid_film() : int {
         return $this->id_film;
     }
 
@@ -192,7 +192,7 @@ class Concerne {
     /**
      * @return $this->id_recipiendaire
      */ 
-    public function getid_recipiendaire() : string {
+    public function getid_recipiendaire() : int {
         return $this->id_recipiendaire;
     }
 
@@ -206,7 +206,7 @@ class Concerne {
     /**
      * @return $this->id_id_nomination
      */ 
-    public function getid_nomination() : string {
+    public function getid_nomination() : int {
         return $this->id_nomination;
     }
 
@@ -242,8 +242,8 @@ class Concerne {
                 self::initPDOS_selectAll();
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de Concerne
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Concerne');
-            return $lesLivres;
+            $lesConcernes = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Concerne');
+            return $lesConcernes;
         }
         catch (PDOException $e) {
             print($e);
@@ -265,12 +265,12 @@ class Concerne {
             self::$_pdos_select->bindValue(':id_recipiendaire',$id_recipiendaire);
             self::$_pdos_select->execute();
         // résultat du fetch dans une instance de Concerne
-            $lm = self::$_pdos_select->fetchObject('Concerne');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lc = self::$_pdos_select->fetchObject('Concerne');
+            if (isset($lc) && ! empty($lc))
+                $lc->setNouveau(FALSE);
+            if (empty($lc))
                 throw new Exception("Recipiendaire $id_recipiendaire inexistant dans la table Concerne.\n");
-            return $lm;
+            return $lc;
         }
         catch (PDOException $e) {
             print($e);
@@ -292,12 +292,12 @@ class Concerne {
             //self::$_pdos_select->bindValue(':id_film', $id_film);
             self::$_pdos_select->execute(array(':id_film' => $id_film));
         // résultat du fetch dans une instance de Concerne
-            $lm = self::$_pdos_select->fetchObject('Concerne');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lc = self::$_pdos_select->fetchObject('Concerne');
+            if (isset($lc) && ! empty($lc))
+                $lc->setNouveau(FALSE);
+            if (empty($lc))
                 throw new Exception("Film $id_film inexistant dans la table Concerne.\n");
-            return $lm;
+            return $lc;
         }
         catch (PDOException $e) {
             print($e);
@@ -318,12 +318,12 @@ class Concerne {
             self::$_pdos_select->bindValue(':id_nomination',$id_nomination);
             self::$_pdos_select->execute();
         // résultat du fetch dans une instance de Concerne
-            $lm = self::$_pdos_select->fetchObject('Concerne');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lc = self::$_pdos_select->fetchObject('Concerne');
+            if (isset($lc) && ! empty($lc))
+                $lc->setNouveau(FALSE);
+            if (empty($lc))
                 throw new Exception("Nomination $id_nomination inexistant dans la table Concerne.\n");
-            return $lm;
+            return $lc;
         }
         catch (PDOException $e) {
             print($e);
@@ -331,7 +331,7 @@ class Concerne {
     }
 
     /**
-     * sauvegarde d'un objet métier
+     * sauvegarde d'un objet
      * soit on insère un nouvel objet
      * soit on le met à jour
      */ 
@@ -363,7 +363,7 @@ class Concerne {
     }
 
     /**
-     * suppression d'un objet métier
+     * suppression d'un objet
      */ 
     public function delete() :void {
         if (!isset(self::$_pdo))
@@ -383,7 +383,7 @@ class Concerne {
     }
 
     /**
-     * nombre d'objets metier disponible dans la table
+     * nombre d'objets disponible dans la table
      */
     public static function getNbConcerne() : int {
         if (!isset(self::$_pdos_count)) {

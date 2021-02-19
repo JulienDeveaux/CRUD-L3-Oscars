@@ -8,9 +8,11 @@ include 'Concerne.php';
 echo '<form action="ajouter_film.php" method="get" >';
 $film = Film::initFilm(1);
 $idFilmMax =  $film->getNbFilms();
+
 if(isset($idFilmMax)) {
     $idFilmMax++;
 }
+
 if(isset ($_GET['titre_film'])){
     $film = Film::initFilm(1);
     $film->setId_film($idFilmMax + 1);
@@ -21,7 +23,7 @@ if(isset ($_GET['titre_film'])){
     $concerne = Concerne::initConcerne_recipiendaire($_GET['reci']);
     $concerne->setid_film($film->getId_film());
 
-    //$concerne->save();
+    //$concerne->save();        // Ne marche pas à cause de notre base de donnée
     $film->save();
     echo $concerne;
     echo $film;
@@ -37,7 +39,11 @@ if(isset ($_GET['titre_film'])){
     $recipiendaireAll = Recipiendaire::getAll();
     $comboBox = '<select name="reci">';
     for($i = 0; $i < sizeof($recipiendaireAll); $i++) {
-        $comboBox .= '<option value="'.$recipiendaireAll[$i]->getid_recipiendaire().'">'.$recipiendaireAll[$i]->getnom_recipiendaire().' '.$recipiendaireAll[$i]->getprenom_recipiendaire().'</option>';
+        $comboBox .= '<option value="'
+            .$recipiendaireAll[$i]->getid_recipiendaire().'">'
+            .$recipiendaireAll[$i]->getnom_recipiendaire().' '
+            .$recipiendaireAll[$i]->getprenom_recipiendaire()
+            .'</option>';
     }
     $comboBox .= '</select>';
     echo $comboBox;

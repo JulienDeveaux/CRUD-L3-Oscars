@@ -6,9 +6,11 @@ include 'Recipiendaire.php';
 echo '<form action="ajouter_recipiendaire.php" method="get" >';
 $recipiendaire = Recipiendaire::initRecipiendaire(1);
 $idRecipiendaireMax =  $recipiendaire->getNbRecipiendaire();
+
 if(isset($idRecipiendaireMax)) {
 	$idRecipiendaireMax++;
 }
+
 if(isset ($_GET['nom'])){
 	$recipiendaire = Recipiendaire::initRecipiendaire(1);
 	$recipiendaire->setid_recipiendaire($idRecipiendaireMax + 1);
@@ -27,8 +29,8 @@ if(isset ($_GET['nom'])){
 	echo '<br/>';
 
 	echo '<button type="submit" name="valider" > Valider </button>';
-	echo '<button type="reset" name="annuler"> Effacer </button>';
-	echo '<br/><a href="page_recipiendaire.php">Retour à la liste des récipiendaires</a>';
+	echo '<button type="reset" name="annuler"  > Effacer </button>';
+	echo '<br/><a href="page_recipiendaire.php"> Retour à la liste des récipiendaires</a>';
 }
 include  'finKtml.html';
 ?>

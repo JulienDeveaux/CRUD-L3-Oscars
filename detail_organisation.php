@@ -7,6 +7,7 @@ if(!empty($_GET['id'])){
 	if(is_numeric($_GET['id'])){
 		$organisation = Organisation::initOrganisation(intval($_GET['id']));
 		if(!empty($organisation)){
+
 			echo '<h1>'.$organisation->getnom_organisation().'</h1>';
 			echo '<img width=100 height=150 alt="'.$organisation->getid_organisation().'" src="Illustrations/Organisation/'.$organisation->getid_organisation().'.png">';
 			echo '</br>';

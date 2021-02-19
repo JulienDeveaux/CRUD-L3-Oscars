@@ -11,8 +11,10 @@
 	include 'Recipiendaire.php';
 
 	if(!empty($_GET['id'])){
+
 		if(is_numeric($_GET['id'])){
 			$ceremonie = Ceremonie::initCeremonie(intval($_GET['id']));
+
 			if(!empty($ceremonie)){
 				$prix = Prix::initPrix($ceremonie->getid_prix());
                 $categorie = Categorie::initCategorie_prix($prix->getid_prix());
@@ -20,7 +22,9 @@
                 $concerne = Concerne::initConcerne_nomination($nomination->getid_nomination());
                 $film = Film::initFilm($concerne->getid_film());
                 $recipiendaire = Recipiendaire::initRecipiendaire($concerne->getid_recipiendaire());
+
 				if(is_int($prix->getid_organisation())) {
+
                     $organisation = Organisation::initOrganisation($prix->getid_organisation());
                     echo '<h1>' . $ceremonie->getnom_ceremonie() . '</h1>';
                     echo '<img width=100 height=150 alt="' . $ceremonie->getid_ceremonie() . '" src="Illustrations/Ceremonie/' . $ceremonie->getid_ceremonie() . '.png">';
@@ -31,7 +35,9 @@
                     echo '<h2>Dans la catégorie '.$categorie->gettitre_categorie().'</h2>';
                     echo '<h2>Pour le film '.$film->getTitre_film().'</h2>';
                     echo '<h2>Contribution : '.$concerne->getnom_contribution().'</h2>';
+
                 } else {
+
                     echo '<h1>'.$ceremonie->getnom_ceremonie().'</h1>';
                     echo '<img width=100 height=150 alt="' . $ceremonie->getid_ceremonie() . '" src="Illustrations/Ceremonie/' . $ceremonie->getid_ceremonie() . '.png">';
                     echo '</br>';

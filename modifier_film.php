@@ -5,6 +5,7 @@ include 'Film.php';
 
 echo '<form action="modifier_film.php" method="get" >';
 $film = Film::initFilm(intval($_GET['id']));
+
 if(isset ($_GET['titre_film'])){
 	$film = Film::initFilm($_GET['id']);
 	$film->setNouveau(false);
@@ -21,9 +22,10 @@ if(isset ($_GET['titre_film'])){
 	echo 'Titre : <input type="text" name="titre_film" value="'.$film->getTitre_film().'" size=50 required>';
 	echo '<br/>';
 	echo '<input type="hidden" name="id" value="'.$film->getId_film().'">';
+
 	echo '<button type="submit" name="valider" > Valider </button>';
-	echo '<button type="reset" name="annuler"> Effacer </button>';
-	echo '<br/><a href="page_film.php">Retour à la liste des films</a>';
+	echo '<button type="reset" name="annuler"  > Effacer </button>';
+	echo '<br/><a href="page_film.php"         > Retour à la liste des films</a>';
 }
 include 'finKtml.html';
 ?>

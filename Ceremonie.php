@@ -44,7 +44,7 @@ class Ceremonie {
      private static $_pdos_selectAll;
 
     /**
-     * Initialisation de la connexion et mémorisation de l'instance PDO dans fonction_prix::$_pdo
+     * Initialisation de la connexion et mémorisation de l'instance PDO dans Ceremonie::$_pdo
      */ 
     public static function initPDO() {
         self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
@@ -132,7 +132,7 @@ class Ceremonie {
 
     /**
      * Prix de la Cérémonie
-     *   @var string
+     *   @var int
      */ 
     protected $id_prix;
 
@@ -242,8 +242,8 @@ class Ceremonie {
                 self::initPDOS_selectAll();
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de Ceremonie
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Ceremonie');
-            return $lesLivres;
+            $lesCeremonies = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Ceremonie');
+            return $lesCeremonies;
         }
         catch (PDOException $e) {
             print($e);
@@ -261,8 +261,8 @@ class Ceremonie {
                 self::initPDOS_selectAllByName($nom);
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de Ceremonie
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Ceremonie');
-            return $lesLivres;
+            $lesCeremonies = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Ceremonie');
+            return $lesCeremonies;
         }
         catch (PDOException $e) {
             print($e);
@@ -283,12 +283,12 @@ class Ceremonie {
             self::$_pdos_select->bindValue(':id_ceremonie',$id_ceremonie);
             self::$_pdos_select->execute();
         // résultat du fetch dans une instance de Ceremonie
-            $lm = self::$_pdos_select->fetchObject('Ceremonie');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lc = self::$_pdos_select->fetchObject('Ceremonie');
+            if (isset($lc) && ! empty($lc))
+                $lc->setNouveau(FALSE);
+            if (empty($lc))
                 throw new Exception("Ceremonie $id_ceremonie inexistant dans la table Ceremonie.\n");
-            return $lm;
+            return $lc;
         }
         catch (PDOException $e) {
             print($e);
@@ -296,7 +296,7 @@ class Ceremonie {
     }
 
     /**
-     * sauvegarde d'un objet métier
+     * sauvegarde d'un objet
      * soit on insère un nouvel objet
      * soit on le met à jour
      */ 

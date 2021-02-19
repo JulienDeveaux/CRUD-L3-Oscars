@@ -6,9 +6,11 @@ include 'Ceremonie.php';
 echo '<form action="ajouter_ceremonie.php" method="get" >';
 $ceremonie = Ceremonie::initCeremonie(1);
 $idCeremMax =  $ceremonie->getNbCeremonie();
+
 if(isset($idCeremMax)) {
 	$idCeremMax++;
 }
+
 if(isset ($_GET['nom'])){
 	$ceremonie = Ceremonie::initCeremonie(1);
 	$ceremonie->setid_ceremonie($idCeremMax + 1);

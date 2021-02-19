@@ -32,24 +32,22 @@ class Prix {
     private static $_pdos_delete;
 
     /**
-     * PreparedStatement associé à un SELECT, calcule le nombre de livres de la table
+     * PreparedStatement associé à un SELECT, calcule le nombre de prix de la table
      * @var PDOStatement;
      */
     private static $_pdos_count;
 
     /**
-     * PreparedStatement associé à un SELECT, récupère tous les livres
+     * PreparedStatement associé à un SELECT, récupère tous les prix
      * @var PDOStatement;
      */
     private static $_pdos_selectAll;
-
-
 
     /**
      * Initialisation de la connexion et mémorisation de l'instance PDO dans Prix::$_pdo
      */
     public static function initPDO() {
-        self::$_pdo = new PDO("pgsql:host=localhost;dbname=justine", "justine", "Polaris:27");
+        self::$_pdo = new PDO("pgsql:host=localhost;dbname=util", "util", "utilpass");
         // pour récupérer aussi les exceptions provenant de PDOStatement
         self::$_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -192,17 +190,16 @@ class Prix {
                 self::initPDOS_selectAll();
             self::$_pdos_selectAll->execute();
             // résultat du fetch dans une instance de Prix
-            $lesLivres = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Prix');
-            return $lesLivres;
+            $lesPrix = self::$_pdos_selectAll->fetchAll(PDO::FETCH_CLASS,'Prix');
+            return $lesPrix;
         }
         catch (PDOException $e) {
             print($e);
         }
     }
 
-
     /**
-     * initialisation d'un objet métier à partir d'un enregistrement de Prix
+     * initialisation d'un objet à partir d'un enregistrement de Prix
      * @param $id_prix un identifiant de Prix
      * @return l'instance de Prix associée à $id_prix
      */
@@ -215,12 +212,12 @@ class Prix {
             self::$_pdos_select->bindValue(':numero',$id_prix);
             self::$_pdos_select->execute();
             // résultat du fetch dans une instance de Prix
-            $lm = self::$_pdos_select->fetchObject('Prix');
-            if (isset($lm) && ! empty($lm))
-                $lm->setNouveau(FALSE);
-            if (empty($lm))
+            $lp = self::$_pdos_select->fetchObject('Prix');
+            if (isset($lp) && ! empty($lp))
+                $lp->setNouveau(FALSE);
+            if (empty($lp))
                 throw new Exception("Prix $id_prix inexistant dans la table Prix.\n");
-            return $lm;
+            return $lp;
         }
         catch (PDOException $e) {
             print($e);
@@ -228,7 +225,7 @@ class Prix {
     }
 
     /**
-     * sauvegarde d'un objet métier
+     * sauvegarde d'un objet
      * soit on insère un nouvel objet
      * soit on le met à jour
      */
@@ -256,7 +253,7 @@ class Prix {
     }
 
     /**
-     * suppression d'un objet métier
+     * suppression d'un objet
      */
     public function delete() :void {
         if (!isset(self::$_pdo))
@@ -272,7 +269,7 @@ class Prix {
     }
 
     /**
-     * nombre d'objets metier disponible dans la table
+     * nombre d'objets disponible dans la table
      */
     public static function getNbPrix() : int {
         if (!isset(self::$_pdos_count)) {
@@ -282,8 +279,6 @@ class Prix {
         $resu = self::$_pdos_count->fetch();
         return $resu[0];
     }
-
-
 
     /**
      * affichage élémentaire
