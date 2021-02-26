@@ -159,7 +159,7 @@ class Nomination {
     /**
      * @return $this->gagnante_nomination
      */
-    public function getgagnante_nomination() : boolean {
+    public function getgagnante_nomination() : bool {
         return $this->gagnante_nomination;
     }
 
